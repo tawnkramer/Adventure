@@ -2,10 +2,7 @@ README.txt
 Author : Tawn Kramer
 Date: Jan 25, 2014
 
-Congratulations! You made it to the README file!
-
-This will help you to have a fun Dungeons and Dragons like text based adventure.
-
+This is a text based dungeon crawl harking back to days of yore.
 
 
 1. What is a text based adventure?
@@ -16,10 +13,9 @@ Well, back in the old days, before fancy graphics, the first games were made as 
 
 2. How do I start?
 
-You can start by typing python TheRaggedKeep.py. This will start you out.
-
 If you have wxWidgets installed, you can try python win_client.py.
 
+Otherwise, you can start by typing python TheRaggedKeep.py. This will start you out. It helps if you can resize your terminal window, as some text tables require extra width. On Windows DOS environments, you may probably want to try the win_client.py instead.
 
 
 3. Can I make my own levels?
