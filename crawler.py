@@ -65,6 +65,11 @@ class Crawler(Player):
 				reply = 'y'
 			else:
 				reply = 'n'
+		elif prompt.find("y/n") != -1:
+			if randint(1, 2) == 1:
+				reply = 'y'
+			else:
+				reply = 'n'
 		elif prompt.find('Enter the sel number') != -1:
 			reply = str(randint(0, 1))
 		elif prompt.find('name of player') != -1:

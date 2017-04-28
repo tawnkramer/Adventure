@@ -97,7 +97,7 @@ class Shop(object):
 		item = self.list[sel]
 		count = 1
 		if item.is_food() or item.is_drink():
-			cstr = get_input('This item can be purchased in quanty. How many would you like? -> ')
+			cstr = get_input('This item can be purchased in quantity. How many would you like? -> ')
 			count = int(cstr)			 
 		if self.player.gp < item.cost.count * count and not DEBUG:
 			print 'The player does not have enough money for this purchase'

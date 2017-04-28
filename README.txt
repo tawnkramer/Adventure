@@ -18,7 +18,7 @@ Well, back in the old days, before fancy graphics, the first games were made as 
 
 You can start by typing python TheRaggedKeep.py. This will start you out.
 
-If you have wxPython installed, you can try python win_client.py.
+If you have wxWidgets installed, you can try python win_client.py.
 
 
 
