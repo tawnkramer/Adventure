@@ -2,7 +2,14 @@ README.txt
 Author : Tawn Kramer
 Date: Jan 25, 2014
 
-This is a text based dungeon crawl harking back to days of yore.
+   _____       .___                    __                         ._.
+  /  _  \    __| _/__  __ ____   _____/  |_ __ _________   ____   | |
+ /  /_\  \  / __ |\  \/ // __ \ /    \   __\  |  \_  __ \_/ __ \  | |
+/    |    \/ /_/ | \   /\  ___/|   |  \  | |  |  /|  | \/\  ___/   \|
+\____|__  /\____ |  \_/  \___  >___|  /__| |____/ |__|    \___  >  __
+        \/      \/           \/     \/                        \/   \/
+
+This is a text based dungeon crawl engine in python. A few dungeons are included. Feel free to make your own!
 
 
 1. What is a text based adventure?
