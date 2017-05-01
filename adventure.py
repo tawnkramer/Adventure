@@ -99,7 +99,7 @@ ________
  /  _ \   \______ \____________     ____   ____   ____   ______
  >  _ </\  |    |  \_  __ \__  \   / ___\ /  _ \ /    \ /  ___/
 /  <_\ \/  |    `   \  | \// __ \_/ /_/  >  <_> )   |  \\___ \ 
-\_____\ \ /_______  /__|  (____  /\___  / \____/|___|  /____  >
+\_____\ \ /_______  /__|  (____  /\___  / \____/|___|  /____  > - ish
        \/         \/           \//_____/             \/     \/ 
 	'''
 	
@@ -112,7 +112,7 @@ def run_adventure(level1, home):
 	#should we load a game in progress?
 	util.clear_screen()
 	show_dd()
-	yn = util.get_input("Welcome to a text based Dungeons and Dragons adventure!!\nAre you starting a new game? (y, n) -> ")
+	yn = util.get_input("Welcome to a text based adventure similar too, but not exactly like, Dungeons and Dragons!!\nAre you starting a new game? (y, n) -> ")
 	loaded_level = None
 	
 	#attempt to load the saved level
