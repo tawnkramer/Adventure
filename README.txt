@@ -20,7 +20,7 @@ Well, back in the old days, before fancy graphics, the first games were made as 
 
 2. How do I start?
 
-If you have wxWidgets installed, you can try python win_client.py.
+If you have wxPython installed, you can try python win_client.py. If you need wxPython this command might install it "python -m pip install wxpython".
 
 Otherwise, you can start by typing python TheRaggedKeep.py. This will start you out. It helps if you can resize your terminal window, as some text tables require extra width. On Windows DOS environments, you may probably want to try the win_client.py instead.
 
