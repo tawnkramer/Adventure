@@ -39,15 +39,15 @@ class adventure_app(object):
 		if line == '' and self.process.poll() != None:
 			return False
 		if len(line) > 0:
-			output_arr.append(line)
+			output_arr.append(line.decode())
 			if self.logfile is not None:
-				self.logfile.write(line)
+				self.logfile.write(line.decode())
 		return True
 		
 	def push_io(self, line):
 		if self.process is not None:
-			self.process.stdin.write(line)
-			self.process.stdin.write('\n')
+			self.process.stdin.write(line.encode())
+			self.process.stdin.write('\n'.encode())
 			self.process.stdin.flush()
 	
 	def stop(self):
@@ -104,8 +104,8 @@ class app_runner(object):
 				if len(output) > 0 and flush:
 					self.send_clients(''.join(output))
 					output = []
-		except:
-			print('sub proccess poll stopped')
+		except Exception as err:
+			print(Exception, err)
 			self.app = None
 			
 	def threaded_run(self):
@@ -128,10 +128,10 @@ class GameClient(object):
 			self.to_send.append(data)
 
 	def poll(self, receiver):
-		try:
+		if True: #try:
 			readable, writable, exceptional = select([self.sock], [], [], 0.0001)
 			if readable:
-				data = self.sock.recv(4096)
+				data = self.sock.recv(4096).decode('utf-8')
 				if data:
 					receiver.on_recv_client_data(data, self)
 			with self.lock:
@@ -139,12 +139,12 @@ class GameClient(object):
 					for data in self.to_send:
 						if VERBOSE:
 							print('sending', data)
-						self.sock.sendall(data)
+						self.sock.sendall(data.encode())
 					self.to_send = None
 			if exceptional:
 				print('maybe this connection closed?')
-		except:
-			pass
+		#except:
+		#	pass
 			
 class GameLevel(object):
 	def __init__(self, filename, description):
@@ -198,9 +198,10 @@ class GameServer(object):
 		
 	def poll(self):
 		for c in self.clients:
-			try:
+			if True: #try:
 				c.poll(self)
-			except:
+			else: #except Exception as err:
+				print(Exception, err)
 				print(c.name, 'dropped connection')
 				self.the_app.clients.remove(c)
 				self.clients.remove(c)

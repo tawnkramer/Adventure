@@ -1,5 +1,5 @@
 import os, sys, pickle, zlib
-import socketserver, socket, threading
+import socket, threading
 from select import select
 import util
 
@@ -17,7 +17,7 @@ class GameClient(object):
 		if True: #try:
 			readable, writable, exceptional = select([self.sock], [], [], 0.0001)
 			if readable:
-				data = self.sock.recv(4096)
+				data = self.sock.recv(4096).decode('utf-8')
 				if data:
 					if data.find('<cls>') != -1:
 						util.clear_screen()
@@ -27,7 +27,7 @@ class GameClient(object):
 			if True: #writable:
 				if self.to_send is not None:
 					#print 'sending', self.to_send
-					self.sock.sendall(self.to_send)
+					self.sock.sendall(self.to_send.encode())
 					self.to_send = None
 			if exceptional:
 				print('maybe this connection closed?')
@@ -132,7 +132,7 @@ def main():
 					infile = open(filename, "rb")
 					loaded_player = pickle.load(infile)
 					infile.close()
-					pickeled_player = zlib.compress(pickle.dumps(loaded_player))					
+					pickeled_player = zlib.compress(pickle.dumps(loaded_player))
 					gc.send('<player>' + pickeled_player)
 					print('sent player file in', len(pickeled_player), 'bytes.')
 				except:

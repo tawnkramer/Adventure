@@ -22,13 +22,13 @@ class GameClient(object):
 		if True: #try:
 			readable, writable, exceptional = select([self.sock], [], [], 0.0001)
 			if readable:
-				data = self.sock.recv(4096)
+				data = self.sock.recv(4096).decode('UTF-8')
 				if data:
 					output.append(data)
 			if True: #writable:
 				if self.to_send is not None:
 					#print 'sending', self.to_send
-					self.sock.sendall(self.to_send)
+					self.sock.sendall(self.to_send.encode())
 					self.to_send = None
 			if exceptional:
 				print('maybe this connection closed?')
