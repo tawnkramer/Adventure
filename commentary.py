@@ -460,6 +460,6 @@ def get_comment(sitch, party, room, level):
 def print_comment(sitch, party, room, level):
 	c = get_comment(sitch, party, room, level)
 	if c is not None:
-		print c
+		print(c)
 
 

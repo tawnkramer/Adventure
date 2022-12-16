@@ -1,5 +1,5 @@
 import os, sys, pickle, zlib
-import SocketServer, socket, threading
+import socketserver, socket, threading
 from select import select
 import util
 
@@ -30,7 +30,7 @@ class GameClient(object):
 					self.sock.sendall(self.to_send)
 					self.to_send = None
 			if exceptional:
-				print 'maybe this connection closed?'
+				print('maybe this connection closed?')
 		else:#except:
 			pass
 			
@@ -52,7 +52,7 @@ class InputPoll(object):
 		
 	def poll_raw_input(self):
 		while self.keep_polling:
-			self.input = raw_input('')
+			self.input = input('')
 
 poller = InputPoll()
 
@@ -76,7 +76,7 @@ def main():
 	name = 'Someone'
 	
 	if len(sys.argv) < 3:
-		print 'usage - python client.py server=serverip name=clientname'
+		print('usage - python client.py server=serverip name=clientname')
 		return
 	
 	for arg in sys.argv:
@@ -96,7 +96,7 @@ def main():
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		sock.connect((server_ip, SERVER_PORT))
 	except:
-		print 'Failed to connect to server.'
+		print('Failed to connect to server.')
 		return
 	
 	#start thread polling for input
@@ -122,7 +122,7 @@ def main():
 				stop_polling_input()
 				return
 			elif len(data) == 2 and data[0] == ('/') and data[1] == ('u'):
-				print 'Enter player to send-> '
+				print('Enter player to send-> ')
 				typed = []
 				while not get_input(typed):
 					pass
@@ -134,9 +134,9 @@ def main():
 					infile.close()
 					pickeled_player = zlib.compress(pickle.dumps(loaded_player))					
 					gc.send('<player>' + pickeled_player)
-					print 'sent player file in', len(pickeled_player), 'bytes.'
+					print('sent player file in', len(pickeled_player), 'bytes.')
 				except:
-					print 'sorry, it failed.'
+					print('sorry, it failed.')
 			elif data == '/r':
 				gc.send('<run>')
 			elif len(data) > 1 and data[0] == ('/'):

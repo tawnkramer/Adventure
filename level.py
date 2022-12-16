@@ -24,10 +24,10 @@ class Level ( object ):
 		#this will compare the current latest root_room to the
 		#saved list of rooms and then add any new additions.
 		#existing rooms will retain their state.
-		print 'Updating rooms...'
+		print('Updating rooms...')
 		loaded_root_room = self.current_room.find_room(root_room.name)
 		if loaded_root_room is None:
-			print 'Problem finding root room', root_room.name
+			print('Problem finding root room', root_room.name)
 			return
 		root_room.add_missing_rooms(loaded_root_room)
 		
@@ -81,9 +81,9 @@ class Level ( object ):
 					self.difficulty = iDif
 					dif_set = True
 				else:
-					print 'please enter a number between 1 and 10.'
+					print('please enter a number between 1 and 10.')
 			except:
-				print 'please enter a number between 1 and 10.'
+				print('please enter a number between 1 and 10.')
 		
 	#take a look at the incoming party and make an attempt to scale
 	#the difficulty of the level
@@ -91,25 +91,25 @@ class Level ( object ):
 		factor = self.difficulty / 5.
 		dif = self.calc_party_strength(party) * factor
 		if util.DEBUG:
-			print 'calculated a party strength factor of', dif
+			print('calculated a party strength factor of', dif)
 		self.current_room.scale_difficulty(dif)
 		
 	def start(self, room, party):
 		util.clear_screen()
 		if self.banner:
-			print self.banner
+			print(self.banner)
 		else:
-			print "\n--------------------------------------------"
-			print "--------------------------------------------"
-			print '     ', self.name
-			print "--------------------------------------------"
-			print "--------------------------------------------"
-			print
-		print
+			print("\n--------------------------------------------")
+			print("--------------------------------------------")
+			print('     ', self.name)
+			print("--------------------------------------------")
+			print("--------------------------------------------")
+			print()
+		print()
 		self.current_room = room
 		self.scale_difficulty(party)
 		self.current_room.on_enter(party, self)
-		print '\nType a command and hit the enter key. Try help for a list of commands.'
+		print('\nType a command and hit the enter key. Try help for a list of commands.')
 		
 	def update(self, party):
 		next_room = self.current_room.update(party, self)
@@ -124,7 +124,7 @@ class Level ( object ):
 		
 	def save(self, party, room):
 		if util.DEBUG:
-			print "can't save debug games."
+			print("can't save debug games.")
 			return
 		self.party_names = []
 		self.NPCs = []
@@ -139,9 +139,9 @@ class Level ( object ):
 			outfile = open(save_filename, 'wb')
 			pickle.dump(self, outfile)
 			outfile.close()
-			print 'Saved level progress in: %s.' % save_name
+			print('Saved level progress in: %s.' % save_name)
 		except:
-			print 'Failed to save: %s. Try a different save name, perhaps with no special characters.' % save_name
+			print('Failed to save: %s. Try a different save name, perhaps with no special characters.' % save_name)
 		for p in party:
 			if not isinstance(p, GoodNPC):
 				p.save()
@@ -156,9 +156,9 @@ class Level ( object ):
 				infile = open(save_filename, 'rb')
 				loaded_level = pickle.load(infile)
 				infile.close()
-				print 'Loaded level progress from: %s.' % save_name
+				print('Loaded level progress from: %s.' % save_name)
 			except:
-				print 'Failed to load: %s. ' % save_name
+				print('Failed to load: %s. ' % save_name)
 				yn = util.get_input("Try again? (y, n) -> ")
 				if yn == 'n':
 					return None
@@ -174,6 +174,6 @@ class Level ( object ):
 				party.append(p)
 		except:
 			if util.DEBUG:
-				print 'Troubles loading NPCs.'
+				print('Troubles loading NPCs.')
 		loaded_level.scale_difficulty(party)
 		return loaded_level		

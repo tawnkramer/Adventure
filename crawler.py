@@ -46,11 +46,11 @@ class Crawler(Player):
 		self.fully_healed()
 		
 	def get_input(self, prompt):
-		print '"', prompt, '"', self.num_rounds
+		print('"', prompt, '"', self.num_rounds)
 		reply = "0"
 		self.num_rounds += 1
 		if self.state == self.MANUAL:
-			return raw_input("help! -> ")
+			return input("help! -> ")
 		elif prompt.find("What would you like to do?") != -1:
 			if randint(1, 4) < 3:
 				reply = self.most_common[ randint(0, len(self.most_common) - 1) ]
@@ -112,6 +112,6 @@ class Crawler(Player):
 				self.state = self.MANUAL
 
 		util.pause()
-		print reply
+		print(reply)
 		return reply
 		

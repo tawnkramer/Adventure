@@ -1,5 +1,5 @@
 import os, sys, pickle, zlib
-import SocketServer, socket, threading, time
+import socketserver, socket, threading, time
 from select import select
 from subprocess import Popen, PIPE, STDOUT
 import wx
@@ -31,7 +31,7 @@ class GameClient(object):
 					self.sock.sendall(self.to_send)
 					self.to_send = None
 			if exceptional:
-				print 'maybe this connection closed?'
+				print('maybe this connection closed?')
 		else:#except:
 			pass
 						
@@ -55,7 +55,7 @@ class server_app(object):
 			while self.process.poll() is None:
 				pass
 			if self.process.returncode is not None:
-				print 'process is closed'
+				print('process is closed')
 				self.process = None
 		
 	def poll(self):
@@ -63,7 +63,7 @@ class server_app(object):
 			return
 		self.process.poll()
 		if self.process.returncode is not None:
-			print 'process is closed'
+			print('process is closed')
 			self.process = None
 			
 class NewServerDefDialog(wx.Dialog):
@@ -252,23 +252,23 @@ class MyFrame(wx.Frame):
 			pass
 		
 	def onConnect0(self, event):
-		print "hey, I'm dynamically bound 0"
+		print("hey, I'm dynamically bound 0")
 		self.onConnectTo(0)
 		
 	def onConnect1(self, event):
-		print "hey, I'm dynamically bound 1"
+		print("hey, I'm dynamically bound 1")
 		self.onConnectTo(1)
 		
 	def onConnect2(self, event):
-		print "hey, I'm dynamically bound 2"
+		print("hey, I'm dynamically bound 2")
 		self.onConnectTo(2)
 		
 	def onConnect3(self, event):
-		print "hey, I'm dynamically bound 3"
+		print("hey, I'm dynamically bound 3")
 		self.onConnectTo(3)
 		
 	def onConnect4(self, event):
-		print "hey, I'm dynamically bound 4"
+		print("hey, I'm dynamically bound 4")
 		self.onConnectTo(4)
 		
 	def onAddServerConnection(self, event):
@@ -409,7 +409,7 @@ class MyFrame(wx.Frame):
 				self.quit_server_connection()
 				return
 			elif len(data) == 2 and data[0] == ('/') and data[1] == ('u'):
-				print 'Enter player to send-> '
+				print('Enter player to send-> ')
 				typed = []
 				while not get_input(typed):
 					pass
@@ -421,9 +421,9 @@ class MyFrame(wx.Frame):
 					infile.close()
 					pickeled_player = zlib.compress(pickle.dumps(loaded_player))					
 					gc.send('<player>' + pickeled_player)
-					print 'sent player file in', len(pickeled_player), 'bytes.'
+					print('sent player file in', len(pickeled_player), 'bytes.')
 				except:
-					print 'sorry, it failed.'
+					print('sorry, it failed.')
 			elif data == '/r':
 				self.gc.send('<run>')
 			elif len(data) > 1 and data[0] == ('/'):

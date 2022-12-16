@@ -63,21 +63,21 @@ class PigFarmQueryResponse(QueryResponse):
 			if tg < 10 and self.pig_gold_avail == 0: #have mercy on poor groups..
 				self.pig_gold_avail = 1
 			if self.pig_gold_avail > 0:
-				print 'The smell was far worse than you imagined. And as the sun sets, you limp back to Sherry and she deposits a single gold piece into your hand with a smile.'
+				print('The smell was far worse than you imagined. And as the sun sets, you limp back to Sherry and she deposits a single gold piece into your hand with a smile.')
 				for p in party:
 					p.gp += 1
 				if tg < 10:
-					print 'With a wink and look to see if no one is checking, she gives you some more. "I know you need it, honey!"'
+					print('With a wink and look to see if no one is checking, she gives you some more. "I know you need it, honey!"')
 					for p in party:
 						p.gp += 3
 				self.pig_gold_avail -= 1
 			else:
-				print '''"Sorry honey. I just realised I'm out of money. At least I figured that out before you started to shovel all day. Ha Ha."'''
+				print('''"Sorry honey. I just realised I'm out of money. At least I figured that out before you started to shovel all day. Ha Ha."''')
 				roll = random.randint(1, 20)
 				if roll < 3:
 					self.pig_gold_avail = 3
 		else:
-			print '''Sherry huffs, "Suit yourself. Think your special, huh? I'll be seeing you again, I bet."'''
+			print('''Sherry huffs, "Suit yourself. Think your special, huh? I'll be seeing you again, I bet."''')
 		return False
 	
 pig_farm = Room("Sherry's Pig Farm",
@@ -92,8 +92,8 @@ class GateKeeper(EvilNPC):
 		self.was_attacked = True
 		if not self.called_guards and self.is_alive() and not self.is_disabled():
 			self.called_guards = True
-			print '''"I don't have time for this!" growls the gatekeeper.'''
-			print 'He takes out a silver whistle and blows it loudly. 10 guards come rushing from the gate!'
+			print('''"I don't have time for this!" growls the gatekeeper.''')
+			print('He takes out a silver whistle and blows it loudly. 10 guards come rushing from the gate!')
 			for i in range(0, 10):
 				g = EvilNPC('Garison Guard', 'A gruff armored lout.', 50, [ MonsterAttack('speared', 12) ], 100, ac=0 ) 
 				room.monsters.append(g)
@@ -137,23 +137,23 @@ Give the gatekeeper 3 gold? (y, n) -> '''
 		if reply == 'y':			
 			if self.gatekeeper.cur_hp == 0:
 				p = party[0]
-				print p.name, 'takes a red ticket from the mud and wipes it off.'
+				print(p.name, 'takes a red ticket from the mud and wipes it off.')
 				p.add(self.ticket)
 				self.gate.unlock()
 				return True
 			for p in party:
 				if p.gp >= self.ticket_price:
 					p.gp -= self.ticket_price
-					print p.name, 'gives %d gold to the gatekeeper. He hands you a red ticket.' % self.ticket_price
+					print(p.name, 'gives %d gold to the gatekeeper. He hands you a red ticket.' % self.ticket_price)
 					p.add(self.ticket)
 					self.gate.unlock()
 					ret_val = True
 			if ret_val is False:
-				print '''"None of ye has the gold for the ticket? I see pig poop in yur future. Better be off to Sherry's Pig Farm then, heh heh. NEXT!!"'''
+				print('''"None of ye has the gold for the ticket? I see pig poop in yur future. Better be off to Sherry's Pig Farm then, heh heh. NEXT!!"''')
 			else:
-				print '''The gatekeeper points a dirty thumb over his shoulder and shouts, "NEXT!!!" '''
+				print('''The gatekeeper points a dirty thumb over his shoulder and shouts, "NEXT!!!" ''')
 		else:
-			print '''"Eh? Stood in line that long but don't want to pay? Must be daft, you are. NEXT!!"'''
+			print('''"Eh? Stood in line that long but don't want to pay? Must be daft, you are. NEXT!!"''')
 		return ret_val
 	
 sell_tickets = TicketQueryResponse(red_ticket, gatekeeper, keep_gate)
@@ -186,8 +186,8 @@ class LargeKid(EvilNPC):
 	
 	def take_combat_turn(self, players, player_actions, room, level, tohit_mod):
 		if self.is_alive() and not self.is_disabled():
-			print '''"You won't live to regret this!" growls the large kid.'''
-			print 'He turns heel and dashes into the keep. An iron gate slams shut behind him.'
+			print('''"You won't live to regret this!" growls the large kid.''')
+			print('He turns heel and dashes into the keep. An iron gate slams shut behind him.')
 			pause()
 			return self.run_action
 		else:
@@ -331,13 +331,13 @@ class SmallBoyResponse(QueryResponse):
 		
 	def response(self, reply, party):
 		if reply == 'y':
-			print '''\n"Super!! My name is Juno. I won't be much trouble. My brother Jared will be so happy when he sees us!'''
-			print '''\n"Oh, can someone give me a dagger or short sword? I can help in a battle."'''
-			print 'Juno joins your party.'
+			print('''\n"Super!! My name is Juno. I won't be much trouble. My brother Jared will be so happy when he sees us!''')
+			print('''\n"Oh, can someone give me a dagger or short sword? I can help in a battle."''')
+			print('Juno joins your party.')
 			Juno.update_attribute_mods()
 			party.append(Juno)
 		else:
-			print '''\n"Awww. Ok. I understand. Thanks for letting me free anyway." And with that he scampers away down the hall.'''
+			print('''\n"Awww. Ok. I understand. Thanks for letting me free anyway." And with that he scampers away down the hall.''')
 		if self.room is not None:
 			self.room.monsters = []
 		return True
@@ -394,24 +394,24 @@ class KitchenCaptivesQueryResponse(QueryResponse):
 		
 	def response(self, reply, party):
 		if reply == 'y':
-			print ''' They all start thanking you over and over. "There's so many more!" They all start shouting at once. "The Baron has many of us working in the mines. We are the lucky ones."		'''
+			print(''' They all start thanking you over and over. "There's so many more!" They all start shouting at once. "The Baron has many of us working in the mines. We are the lucky ones."		''')
 			if in_party(party, "Juno"):
 				J = get_player(party, "Juno")
 				if J.is_alive():
-					print'''\nOne small boy cries out, "Juno! Oh you managed to escape! Your brother still lives. He is working in the mines, I think."
+					print('''\nOne small boy cries out, "Juno! Oh you managed to escape! Your brother still lives. He is working in the mines, I think."
 Juno smiles big, "Thank you... thank you for telling me."
-					'''
+					''')
 				else:
-					print '''
+					print('''
 					One small boy cries out, "Oh Juno! Are you ok?! I'm sure he would like to know his brother still lives. I think he's in the mines now."
-					'''
+					''')
 			else:
-				print '''\nOne small boy cries out, "Have you seen Juno? He managed to escape but we haven't seen him for ages! I'm sure he would like to know his brother still lives. I think he's in the mines now. I hope Juno made it out safely!"
-				'''
+				print('''\nOne small boy cries out, "Have you seen Juno? He managed to escape but we haven't seen him for ages! I'm sure he would like to know his brother still lives. I think he's in the mines now. I hope Juno made it out safely!"
+				''')
 			for p in party:
 				p.add_xp(10)
 		else:
-			print '"Oooooo.. you are so unbelievably mean!!! I hope you grow old... and get warts on your bum!"'
+			print('"Oooooo.. you are so unbelievably mean!!! I hope you grow old... and get warts on your bum!"')
 		return True
 
 kitchen = Room('Kitchen', "This large room is filled with multiple large stewing pots. Various cooking utensils and ingredients are stacked on shelves around the edge of the room. Several large skinned animals turn on skewers over the fire.\n\nNumerous people are working around the kitchen. They appear to have chains on their legs.\n", 'A large room full of boiling pots.', 'a large kitchen.' , [ITEM('bread'),ITEM('bread'),ITEM('water')], kitchen_monsters, [KitchenCaptivesQueryResponse()] )
@@ -432,11 +432,11 @@ class ShovelingCaptivesQueryResponse(QueryResponse):
 		
 	def response(self, reply, party):
 		if reply == 'y':
-			print '''\n\n They all start thanking you over and over. "We heard the guards talking about someone freeing the kitchen!", they all say at once. "The Baron is hopping mad! We saw him spit with rage when he heard, he did. He was just here inspecting us, not but a short time ago."\n\n		'''
+			print('''\n\n They all start thanking you over and over. "We heard the guards talking about someone freeing the kitchen!", they all say at once. "The Baron is hopping mad! We saw him spit with rage when he heard, he did. He was just here inspecting us, not but a short time ago."\n\n		''')
 			for p in party:
 				p.add_xp(10)
 		else:
-			print '"ehh.. you are so cruel!!! I hope you turn blind and get stuck in maze!"'
+			print('"ehh.. you are so cruel!!! I hope you turn blind and get stuck in maze!"')
 		return True
 		
 small_diamond = Item("small diamond", "a small white gem gleaming brightly", "in the dirt underneath one of the carts.", GP(50))
@@ -472,23 +472,23 @@ class DepotCaptivesQueryResponse(QueryResponse):
 		
 	def response(self, reply, party):
 		if reply == 'y':
-			print '''\n\n They all cheer and thank you over and over. "We heard the guards talking!", they all say at once. "But we can hardly believe you came."\n'''
+			print('''\n\n They all cheer and thank you over and over. "We heard the guards talking!", they all say at once. "But we can hardly believe you came."\n''')
 			for p in party:
 				p.add_xp(100)
-			print
+			print()
 			if in_party(party, "Juno"):
 				p = get_player(party, "Juno")
 				party.remove(p)
 				if p.is_alive():
-					print'''One large dirty boy cries out, "Juno!!!"
-Juno races over the rubble and jumps into his arms "Jared!!! I never thought I'd see you again!!", he sobbed with happiness. Everyone cheers once again for the reunion.\n'''
+					print('''One large dirty boy cries out, "Juno!!!"
+Juno races over the rubble and jumps into his arms "Jared!!! I never thought I'd see you again!!", he sobbed with happiness. Everyone cheers once again for the reunion.\n''')
 				else:
-					print'''One large dirty boy cries out, "Juno!!!"
-Jared races over the rubble and holds a limp Juno in his arms "Juno!!! I never thought I'd see you again!!", he sobbed with happiness and sorrow. "We must get him to a priest!" Everyone agrees and they hoist him upon their shoulders.\n'''
-			print " The large group of people take up the swords from the fallen orcs. And together the small army marches out of the mines, hand in hand."
-			print
-			print "The Baron was seen fleeing from The Ragged Keep with bags of diamonds. No one knows where he went."
-			print '''
+					print('''One large dirty boy cries out, "Juno!!!"
+Jared races over the rubble and holds a limp Juno in his arms "Juno!!! I never thought I'd see you again!!", he sobbed with happiness and sorrow. "We must get him to a priest!" Everyone agrees and they hoist him upon their shoulders.\n''')
+			print(" The large group of people take up the swords from the fallen orcs. And together the small army marches out of the mines, hand in hand.")
+			print()
+			print("The Baron was seen fleeing from The Ragged Keep with bags of diamonds. No one knows where he went.")
+			print('''
 			
 ___________.__             ___________           .___
 \__    ___/|  |__   ____   \_   _____/ ____    __| _/
@@ -499,9 +499,9 @@ ___________.__             ___________           .___
 
 
 We hope you enjoyed this text based adventure! Have fun modifying it, or make your own! Check out the README.txt for ways to have fun.
-				'''
+				''')
 		else:
-			print '''"You won't help us?! Ehh.. you are worse than the Baron!!! A plague on you and your kin for all generations!!!" The crowd starts booing and spitting at you.'''
+			print('''"You won't help us?! Ehh.. you are worse than the Baron!!! A plague on you and your kin for all generations!!!" The crowd starts booing and spitting at you.''')
 		return True
 		
 large_depot = Room("Mine Depot", "This cavernous room is a cacophony of shouting, clanging, and smashing. A long belt carries coal into a massive pounding hammer. This monstrous slab of metal lifts and pounds the coals to bits. Hundreds of people of all ages toil under the lash, chained together in groups, shovelling and carrying coal. Orcs scurry about, watching closely. And over them all, a large Ogre roams with a wicked whip and horned club.\n\n On a balcony overlooking this large room sits the Baron, observing quietly. Next to him stands a boy in armor, with a one horned helm.\n", "A cavernous room filled with coal smashing equipment.", "a cavernous, loud room.", [small_diamond, small_diamond], depot_monsters, [DepotCaptivesQueryResponse()])

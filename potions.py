@@ -13,13 +13,13 @@ class InvisibilityPotion(Potion):
 
 	def drink(self, drinker):
 		drinker.hidden = True
-		print '%s suddenly disappears completely.' % drinker.name
+		print('%s suddenly disappears completely.' % drinker.name)
 
 class HealingPotion(Potion):
 
 	def drink(self, drinker):
 		if drinker.is_alive():
 			drinker.fully_healed()
-			print '%s is fully healed!' % drinker.name
+			print('%s is fully healed!' % drinker.name)
 		
 	

@@ -25,36 +25,36 @@ class MonsterAttack(object):
 			tohit = 1
 			
 		if tohit == 20:
-			print monster.name, 'rolls %d! Perfect blow, double dammage!!' % tohit
+			print(monster.name, 'rolls %d! Perfect blow, double dammage!!' % tohit)
 		else:
-			print monster.name, 'rolls %d.' % tohit
+			print(monster.name, 'rolls %d.' % tohit)
 		
 		if tohit != 20 and tohit + abil_mod < 19 - target.get_ac() :
 			i = random.randint(1, 8)
 			if tohit > 14 and target.active_armor != None:
-				print monster.name, self.usage_desc, 'but', target.name, 'was saved by %s %s.' % ( target.get_pronoun_lower(), target.active_armor.name)
+				print(monster.name, self.usage_desc, 'but', target.name, 'was saved by %s %s.' % ( target.get_pronoun_lower(), target.active_armor.name))
 			elif tohit > 11 and target.active_shield != None:
-				print monster.name, self.usage_desc, 'but', target.name, 'blocked with %s %s.' % ( target.get_pronoun_lower(), target.active_shield.name)
+				print(monster.name, self.usage_desc, 'but', target.name, 'blocked with %s %s.' % ( target.get_pronoun_lower(), target.active_shield.name))
 			elif tohit > 11 and target.active_weapon != None:
-				print monster.name, self.usage_desc, 'but', target.name, 'paried with %s %s.' % ( target.get_pronoun_lower(), target.active_weapon.name)
+				print(monster.name, self.usage_desc, 'but', target.name, 'paried with %s %s.' % ( target.get_pronoun_lower(), target.active_weapon.name))
 			elif tohit < 5:
-				print monster.name, 'considers running, eyes wide with fear.'
+				print(monster.name, 'considers running, eyes wide with fear.')
 			elif i == 1:
-				print monster.name, self.usage_desc, 'but', target.name, 'ducked just in time.'
+				print(monster.name, self.usage_desc, 'but', target.name, 'ducked just in time.')
 			elif i == 2:
-				print monster.name, 'flailed uselessly at %s.' % target.name
+				print(monster.name, 'flailed uselessly at %s.' % target.name)
 			elif i == 3:
-				print monster.name, self.usage_desc, 'and stumbled while attacking %s.' % target.name
+				print(monster.name, self.usage_desc, 'and stumbled while attacking %s.' % target.name)
 			elif i == 4:
-				print monster.name, self.usage_desc, 'but', target.name, 'dodged expertly.'
+				print(monster.name, self.usage_desc, 'but', target.name, 'dodged expertly.')
 			elif i == 5:
-				print monster.name, self.usage_desc, 'but', target.name, 'avoided it.'
+				print(monster.name, self.usage_desc, 'but', target.name, 'avoided it.')
 			elif i == 6:
-				print monster.name, self.usage_desc, 'at', target.name, 'but missed.'
+				print(monster.name, self.usage_desc, 'at', target.name, 'but missed.')
 			elif i == 7:
-				print monster.name, 'charges but can not hit %s.' % target.name
+				print(monster.name, 'charges but can not hit %s.' % target.name)
 			elif i == 8:
-				print monster.name, 'attacks but %s sidesteps adroitly.' % target.name
+				print(monster.name, 'attacks but %s sidesteps adroitly.' % target.name)
 			util.pause()
 			return
 		d = random.randint(1, self.damage)
@@ -66,7 +66,7 @@ class MonsterAttack(object):
 			if d < 0:
 				d = 0
 			else:
-				print target.name, 'blocked', blocked_damage, 'damage.'
+				print(target.name, 'blocked', blocked_damage, 'damage.')
 		
 		if d > 0:
 			#HACK! Second chance code. Take players to 1 hp to give them a chance to run.
@@ -77,29 +77,29 @@ class MonsterAttack(object):
 				d = target.cur_hp - 1
 				narrow_miss = True
 			
-			print monster.name, self.usage_desc, target.name, 'for', d, 'damage.'
+			print(monster.name, self.usage_desc, target.name, 'for', d, 'damage.')
 			if narrow_miss:
 				pronoun = target.get_pronoun_lower()
-				print target.name, 'narrowly escaped with %s life!' % pronoun
+				print(target.name, 'narrowly escaped with %s life!' % pronoun)
 			elif d > (target.hp / 2):
-				print target.name, 'is reeling from the terrible blow.'
+				print(target.name, 'is reeling from the terrible blow.')
 			elif target.cur_hp < 5:
-				print target.name, 'staggers, barely keeping %s feet.' % target.get_pronoun_lower()
+				print(target.name, 'staggers, barely keeping %s feet.' % target.get_pronoun_lower())
 			elif d < 4:
-				print target.name, 'shrugs off the blow.'
+				print(target.name, 'shrugs off the blow.')
 			elif d < 6:
-				print target.name, 'grimaces in pain.'
+				print(target.name, 'grimaces in pain.')
 			elif d < 10:
-				print target.name, 'howls in pain.'
+				print(target.name, 'howls in pain.')
 			elif d < 15:
-				print target.name, 'shrieks in pain.'
+				print(target.name, 'shrieks in pain.')
 			util.pause()
 			
 		target.cur_hp -= d
 		if target.cur_hp < 0:
 			target.cur_hp = 0
 		if target.cur_hp == 0:
-			print target.name, 'has fallen!!!'
+			print(target.name, 'has fallen!!!')
 			util.pause()
 		
 class Monster(object):
@@ -184,7 +184,7 @@ class Monster(object):
 		for ar in self.action_responses:
 			if ar.name == action_name:
 				return ar.do_response(self, item, other)
-		print self.name, 'shrugs, unsure of what', action_name, 'means.'
+		print(self.name, 'shrugs, unsure of what', action_name, 'means.')
 		
 	def is_alive(self):
 		return self.cur_hp > 0
@@ -231,12 +231,12 @@ def Mon(name, optional_desc=None):
 		if m.name == name:
 			cm = copy.deepcopy(m)
 			#randomly assign hp
-			cm.hp = random.randint(cm.hp / 2, cm.hp)
+			cm.hp = random.randint(int(cm.hp / 2), cm.hp)
 			#scale xp depending on hp
 			cm.xp_award = int(float(cm.hp) / cm.cur_hp * cm.xp_award)
 			cm.cur_hp = cm.hp
 			if optional_desc is not None:
 				cm.description = optional_desc
 			return cm
-	print 'monster', name, 'not found!'
+	print('monster', name, 'not found!')
 	return None

@@ -138,49 +138,49 @@ class Weapon(Item):
 			if player.is_hidden():
 				tohit_mod += 10
 			if tohit_mod > 0:
-				print player.name, 'rolls %d (+%d).' % (tohit, tohit_mod)
+				print(player.name, 'rolls %d (+%d).' % (tohit, tohit_mod))
 			else:
-				print player.name, 'rolls %d.' % tohit
+				print(player.name, 'rolls %d.' % tohit)
 			
 			tohit += tohit_mod	
 			if tohit != 20 and tohit < 20 - target.get_ac() - player.get_skill_level(self.cat) :
-				print player.name, self.use_desc, 'at', target.name, 'but missed.'
+				print(player.name, self.use_desc, 'at', target.name, 'but missed.')
 				return
 			d = random.randint(1, self.damage)
 			if tohit == 20:
-				print 'Perfect blow! Double damage!!'
+				print('Perfect blow! Double damage!!')
 				d = d * 2
 			dm = player.get_damage_mod() + player.get_skill_level(self.cat) - 1 + self.get_damage_bonus()
 			if player.is_hidden():
-				print 'Suprise attack adds %d damage.' % (d + 3)
+				print('Suprise attack adds %d damage.' % (d + 3))
 				dm += d + 3
 			if target.disabled > 0:
 				dm += 3
 			if dm > 0:
-				print player.name, self.use_desc, target.name, 'for', d, 'damage (+%d).' % dm
+				print(player.name, self.use_desc, target.name, 'for', d, 'damage (+%d).' % dm)
 				d += dm			
 			elif dm < 0:
-				print player.name, self.use_desc, target.name, 'for', d, 'damage (%d).' % dm			
+				print(player.name, self.use_desc, target.name, 'for', d, 'damage (%d).' % dm)			
 				d += dm	
 			else:
-				print player.name, self.use_desc, target.name, 'for', d, 'damage.'
+				print(player.name, self.use_desc, target.name, 'for', d, 'damage.')
 			if d > 0:
 				target.cur_hp -= d
 				if target.cur_hp <= 0:
 					target.cur_hp = 0
-					print 'The', target.name, 'slumps to the ground, motionless.'
+					print('The', target.name, 'slumps to the ground, motionless.')
 				elif d > (target.hp / 2):
-					print target.name, 'is reeling from the terrible blow!'
+					print(target.name, 'is reeling from the terrible blow!')
 				elif target.cur_hp < 5:
-					print target.name, 'staggers, barely keeping their feet.'
+					print(target.name, 'staggers, barely keeping their feet.')
 				elif d < 3:
-					print target.name, 'shrugs off the blow.'
+					print(target.name, 'shrugs off the blow.')
 				elif d < 5:
-					print target.name, 'grimaces in pain.'
+					print(target.name, 'grimaces in pain.')
 				elif d < 8:
-					print target.name, 'howls in pain.'
+					print(target.name, 'howls in pain.')
 				else:
-					print target.name, 'shrieks in pain.'
+					print(target.name, 'shrieks in pain.')
 				
 				#getting hit snaps monster out of any magical disabled state.
 				if target.disabled > 0:

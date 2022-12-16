@@ -18,7 +18,7 @@ class PlayerEditor(object):
 		
 	def roll_attr(self):
 		if self.player.experience != 0:
-			print "You can't modify your attributes once you've started adventuring!"
+			print("You can't modify your attributes once you've started adventuring!")
 			return
 		hi = 18
 		lo = 8
@@ -58,12 +58,12 @@ class PlayerEditor(object):
 			self.player.sex = 'male'
 		
 	def set_new_race(self):
-		print '\n Choose a race. Certain races will affect certain attributes\n'
-		print ' h-human \tNo attribute changes'
-		print ' o-half_orc\tstrength: +1\t\t charisma: -2'
-		print ' g-halfling\tdexterity: +1\t\t strength: -1'
-		print ' e-elf \t\tdexterity: +1\t\t constitution: -1'
-		print ' d-dwarf\tconstitution: +1\t charisma: -1\n'
+		print('\n Choose a race. Certain races will affect certain attributes\n')
+		print(' h-human \tNo attribute changes')
+		print(' o-half_orc\tstrength: +1\t\t charisma: -2')
+		print(' g-halfling\tdexterity: +1\t\t strength: -1')
+		print(' e-elf \t\tdexterity: +1\t\t constitution: -1')
+		print(' d-dwarf\tconstitution: +1\t charisma: -1\n')
 		race = get_input("Choose new race: -> ")
 		self.unsaved_changes = True
 		if race == 'h':
@@ -77,16 +77,16 @@ class PlayerEditor(object):
 		elif race == 'd':
 			self.player.race = 'dwarf'
 		else:
-			print "didn't recognize input"
+			print("didn't recognize input")
 			
 	def set_new_age(self):
 		self.unsaved_changes = True
-		print "\nChoose an age. Certain ages will affect certain attributes.n"
-		print ' 5-10:  \tstrength: -2 \twisdom: -2 \tconstitution: +2'
-		print ' 11-18: \tstrength: -1 \twisdom: -1 \tconstitution: +1'
-		print ' 40-60: \tstrength: -1 \twisdom: +1 \tconstitution: -1'
-		print ' 60-80: \tstrength: -3 \twisdom: +3 \tconstitution: -3'
-		print ' 90-99: \tstrength: -5 \twisdom: +5 \tconstitution: -5\n'
+		print("\nChoose an age. Certain ages will affect certain attributes.n")
+		print(' 5-10:  \tstrength: -2 \twisdom: -2 \tconstitution: +2')
+		print(' 11-18: \tstrength: -1 \twisdom: -1 \tconstitution: +1')
+		print(' 40-60: \tstrength: -1 \twisdom: +1 \tconstitution: -1')
+		print(' 60-80: \tstrength: -3 \twisdom: +3 \tconstitution: -3')
+		print(' 90-99: \tstrength: -5 \twisdom: +5 \tconstitution: -5\n')
 		age = get_input("Enter new age, 5-99 -> ")
 		ai = int(age)
 		if ai <= 99 and ai >= 5:
@@ -94,18 +94,18 @@ class PlayerEditor(object):
 			if ai < 10:
 				self.player.strength
 		else:
-			print "invalid age"
+			print("invalid age")
 			
 	def set_new_alignment(self):
 		self.unsaved_changes = True
-		print "\n Choose an option that is closest to your philosophy:\n"
-		print " n-neutral\t\t\tLive and let live. There is no good or evil except in the mind of the observer."
-		print " lg-lawful good\t\t\tThe universe has order. And I preserve it and seek the betterment of myself and others."
-		print " ln-lawful neutral\t\tI observe the order, but believe each man decides his own fate."
-		print " le-lawful evil\t\t\tThere may be rules, but they exist only as a framework to advance myself."
-		print " cg-chaotic good\t\tRules are the flimsy construct of man. What matters is only each other."
-		print " cn-chaotic neutral\t\tRules are bars that chain me. And no one decides our destiny."
-		print " ce-chaotic evil\t\tRules are made to be broken. And I seek to do at every opportunity.\n"
+		print("\n Choose an option that is closest to your philosophy:\n")
+		print(" n-neutral\t\t\tLive and let live. There is no good or evil except in the mind of the observer.")
+		print(" lg-lawful good\t\t\tThe universe has order. And I preserve it and seek the betterment of myself and others.")
+		print(" ln-lawful neutral\t\tI observe the order, but believe each man decides his own fate.")
+		print(" le-lawful evil\t\t\tThere may be rules, but they exist only as a framework to advance myself.")
+		print(" cg-chaotic good\t\tRules are the flimsy construct of man. What matters is only each other.")
+		print(" cn-chaotic neutral\t\tRules are bars that chain me. And no one decides our destiny.")
+		print(" ce-chaotic evil\t\tRules are made to be broken. And I seek to do at every opportunity.\n")
 		al = get_input("Enter new alignment: -> ")
 		if al == 'n':
 			self.player.alignment = 'neutral'
@@ -122,7 +122,7 @@ class PlayerEditor(object):
 		elif al == 'ce':
 			self.player.alignment = 'chaotic evil'
 		else:
-			print "didn't recognize input"
+			print("didn't recognize input")
 			
 	def choose_random_desc(self):
 		desc = []
@@ -144,15 +144,15 @@ class PlayerEditor(object):
 		
 	def choose_new_skills(self):
 		self.unsaved_changes = True
-		print '\n Skills:\n'
-		print 'sel\tcost\tname\t\t\t\tdescription'
+		print('\n Skills:\n')
+		print('sel\tcost\tname\t\t\t\tdescription')
 		num = len(self.all_skills)
 		for i in range(0, num):
 			s = self.all_skills[i]
-			print i+1,'\t', s.cost, '\t', s.name, s.description
+			print(i+1,'\t', s.cost, '\t', s.name, s.description)
 		done = False
 		while not done:
-			print '\nYou have', self.player.sp, 'skill points to spend.'
+			print('\nYou have', self.player.sp, 'skill points to spend.')
 			ch = get_input('Type the sel number of the skill you wish to aquire or improve (e-exit)-> ')
 			if ch == 'e':
 				done = True
@@ -160,30 +160,30 @@ class PlayerEditor(object):
 			try:
 				ch_i = int(ch)
 			except:
-				print 'invalid input'
+				print('invalid input')
 				continue
 			if ch_i <= 0 or ch_i > num:
-				print 'input out of range'
+				print('input out of range')
 				continue
 			sel_s = self.all_skills[ch_i - 1]
 			if sel_s.cost > self.player.sp:
-				print 'The skill', sel_s.name, 'costs', sel_s.cost, 'but you have only', self.player.sp, 'skill points.'
+				print('The skill', sel_s.name, 'costs', sel_s.cost, 'but you have only', self.player.sp, 'skill points.')
 			else:
 				yn = get_input('Are you sure %s wants %s training? (y, n) -> ' % (self.player.name, sel_s.name))
 				if yn == 'y':
 					if sel_s.uses_mana():
 						self.player.update_attribute_mods()
 						mana_pt = random.randint(4, 8) + self.player.mana_mod
-						print self.player.name, "gains %d mana with %s training." % ( mana_pt, self.player.get_pronoun_lower())
+						print(self.player.name, "gains %d mana with %s training." % ( mana_pt, self.player.get_pronoun_lower()))
 						self.player.mana += mana_pt
 					self.player.sp -= sel_s.cost
 					sk = self.player.get_skill(sel_s.cat)
 					if sk is not None:
 						sk.level += 1
-						print self.player.name, 'now has', sel_s.name, 'training level %d.' % sk.level
+						print(self.player.name, 'now has', sel_s.name, 'training level %d.' % sk.level)
 					else:
 						self.player.skills.append(copy.deepcopy(sel_s))
-						print self.player.name, 'now has', sel_s.name, 'training.'
+						print(self.player.name, 'now has', sel_s.name, 'training.')
 			
 	def load_player(self):
 		name = get_input("Enter the name of the player to load -> ")
@@ -193,9 +193,9 @@ class PlayerEditor(object):
 		
 	def print_help(self, isNewChar):
 		if isNewChar:
-			print "\n r-roll for new attributes\n n-set new name\n l-set new alignment\n d-set new description\n a-set new age\n c-set new race\n k-choose new skills\n p-new personality\n x-change sex\n s-save\n o-load\n e-exit\n"
+			print("\n r-roll for new attributes\n n-set new name\n l-set new alignment\n d-set new description\n a-set new age\n c-set new race\n k-choose new skills\n p-new personality\n x-change sex\n s-save\n o-load\n e-exit\n")
 		else:
-			print "\n n-set new name\n l-set new alignment\n d-set new description\n a-set new age\n c-set new race\n k-choose new skills\n p-new personality\n x-change sex\n s-save\n o-load\n e-exit\n"
+			print("\n n-set new name\n l-set new alignment\n d-set new description\n a-set new age\n c-set new race\n k-choose new skills\n p-new personality\n x-change sex\n s-save\n o-load\n e-exit\n")
 		
 	def do_edit(self, p, isNewChar=True):
 		self.set_player(p)
@@ -206,7 +206,7 @@ class PlayerEditor(object):
 			self.print_help(isNewChar)
 			if doWelcome:
 				doWelcome = False
-				print ' Welcome to your player creator. This is where we get to decide all the details about yourself.\n Try hitting r a few times until you see some attribute numbers you like. The attributes go from 3 to 18.\n Then choose your skills. If you like, you can change the other things too. But attributes and skills are most important.\n Have fun!'
+				print(' Welcome to your player creator. This is where we get to decide all the details about yourself.\n Try hitting r a few times until you see some attribute numbers you like. The attributes go from 3 to 18.\n Then choose your skills. If you like, you can change the other things too. But attributes and skills are most important.\n Have fun!')
 			com = self.get_command()
 			if com == 'e':
 				if self.unsaved_changes:
@@ -239,7 +239,7 @@ class PlayerEditor(object):
 			elif com == 'o':
 				self.load_player()
 			else:
-				print "Sorry, didn't recognize command:", com
+				print("Sorry, didn't recognize command:", com)
 				
 
  

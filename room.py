@@ -146,7 +146,7 @@ class Room ( object ):
 			
 		if self.dif_scale == 0.0:
 			if util.DEBUG:
-				print 'setting dif for', self.name
+				print('setting dif for', self.name)
 			self.dif_scale = dif
 			if dif > 1.0 and self.num_monsters() > 0:
 				mon_hp_scale = dif
@@ -162,7 +162,7 @@ class Room ( object ):
 					num_to_add = int(self.num_monsters() * mon_count_scale)
 					m = self.monsters[-1]
 					if util.DEBUG:
-						print 'adding', num_to_add, m.name
+						print('adding', num_to_add, m.name)
 					for i in range(0, num_to_add):
 						nm = Mon(m.name)
 						if nm is not None:
@@ -171,14 +171,14 @@ class Room ( object ):
 					for m in self.monsters:
 						m.hp = int(m.hp * mon_hp_scale)
 						if util.DEBUG:
-							print m.name, 'hp:', m.hp
+							print(m.name, 'hp:', m.hp)
 						m.cur_hp = int(m.cur_hp * mon_hp_scale)
 						m.xp_award = int(m.xp_award * mon_hp_scale)  
 						for a in m.attacks:
 							if mon_damage_scale > 1.0:
 								a.damage = int(a.damage * mon_damage_scale)
 								if util.DEBUG:
-									print '  dam:', a.damage
+									print('  dam:', a.damage)
 			elif dif < 1.0 and self.num_monsters() > 0:
 				mon_hp_scale = dif
 				mon_damage_scale = dif
@@ -194,13 +194,13 @@ class Room ( object ):
 					if m.hp < 1:
 						m.hp = 1
 					if util.DEBUG:
-						print m.name, 'hp:', m.hp
+						print(m.name, 'hp:', m.hp)
 					m.cur_hp = m.hp
 					m.xp_award = int(m.xp_award * mon_hp_scale)  
 					for a in m.attacks:
 						a.damage = int(a.damage * mon_damage_scale)
 						if util.DEBUG:
-							print '  dam:', a.damage
+							print('  dam:', a.damage)
 				#also scale the value of items found
 				for i in self.items:
 					if isinstance(i, Item) and i.cost is not None:
@@ -222,49 +222,49 @@ class Room ( object ):
 		return True
 
 	def look(self, party, level, show_initial=False):
-		print
+		print()
 		if not self.been_there or show_initial:
 			self.been_there = True
 			if self.initial_description:
-				print self.initial_description
+				print(self.initial_description)
 			else:
-				print self.description
+				print(self.description)
 		else:
-			print self.description
+			print(self.description)
 			self.do_triggers(party, level, 'on_look')
 			
 		num_mon = len(self.monsters)
 		if num_mon > 1:
 			if self.all_same_type(self.monsters):
-				print 'A group of', num_mon, '%ss are here.' % self.monsters[0].name
+				print('A group of', num_mon, '%ss are here.' % self.monsters[0].name)
 			elif isinstance(self.monsters[-1], EvilNPC):
-				print 'A group of', num_mon, 'men are here.'
+				print('A group of', num_mon, 'men are here.')
 			else:
-				print 'A group of', num_mon, 'monsters are here.'
-			print self.monsters[0].description
+				print('A group of', num_mon, 'monsters are here.')
+			print(self.monsters[0].description)
 		else:
 			for mon in self.monsters:
-				print mon.description
+				print(mon.description)
 				
 		try:
 			if self.enter_comment is not None:
-				print
-				print self.enter_comment
+				print()
+				print(self.enter_comment)
 				self.enter_comment = None
 		except:
 			pass
 		
-		print
-		print '......'
-		print
+		print()
+		print('......')
+		print()
 		for direction in self.connect_rooms:
 			room, door = self.connect_rooms[direction]
 			if door is not None:
 				description = direction + " you see " + door.description 
 			else:
 				description = direction + " you see " + room.get_distant_view() 
-			print description
-		print
+			print(description)
+		print()
 		
 	def do_triggers(self, party, level, trigger_name):
 		func_name = "do_trigger_" + trigger_name
@@ -296,25 +296,25 @@ class Room ( object ):
 			if isinstance(m, GoodNPC):
 				continue
 			if isinstance(m, EvilNPC) and not util.DEBUG:
-				print "You can't search now. %s has his evil eye on you." % m.name
+				print("You can't search now. %s has his evil eye on you." % m.name)
 				return
 			if isinstance(m, Monster) and not util.DEBUG:
-				print "You can't search now unless you want the monsters to eat you."
+				print("You can't search now unless you want the monsters to eat you.")
 				return
 		
 		if len(self.items) == 0:
-			print "You don't find anything interesting."
+			print("You don't find anything interesting.")
 		else:
 			self.dole_out_one_item(party, 'You discover', self.items)			
 			
 	def dole_out_one_item(self, party, action_desc, item_list):
 		for item in item_list:
 			if item.description and item.location:
-				print action_desc, item.description, item.location
+				print(action_desc, item.description, item.location)
 			elif item.description:
-				print action_desc, item.description
+				print(action_desc, item.description)
 			else:
-				print action_desc, item.name
+				print(action_desc, item.name)
 				
 			divide_loot(party, [item])
 			self.items.remove(item)
@@ -342,10 +342,10 @@ class Room ( object ):
 			self.monsters = [ mon ]			
 		
 	def on_enter(self, party, level, entered_from_room=None):
-		print "~+----------------------------------------+~"
-		print '    ', self.name
-		print "~+----------------------------------------+~"
-		print
+		print("~+----------------------------------------+~")
+		print('    ', self.name)
+		print("~+----------------------------------------+~")
+		print()
 		self.entered_from_room = entered_from_room
 		self.check_for_wandering_monsters()
 		self.look(party, level)
@@ -366,7 +366,7 @@ class Room ( object ):
 		if door is None or door.is_unlocked():
 			return room			
 		if door.is_locked():
-			print 'This door is locked.'
+			print('This door is locked.')
 			key_name = 'key'
 			if door.key is not None:
 				key_name = door.key.name
@@ -387,14 +387,14 @@ class Room ( object ):
 							roll = random.randint(1, 20)
 							door.log_attempt(string_id)
 							if roll > 15 - user.get_skill_level(SKILL_CAT_LOCK_PICK):
-								print 'You picked the lock!'
+								print('You picked the lock!')
 								util.pause()
 								door.unlock()
 								return room
 							else:
-								print "Darn! It didn't work. This lock is beyond your skill. You won't be able to attempt again until you level up your lock pick training."
+								print("Darn! It didn't work. This lock is beyond your skill. You won't be able to attempt again until you level up your lock pick training.")
 					else:
-						print "%s has a lock pick skill. If you had a lock pick set that would be helpful." % user.name
+						print("%s has a lock pick skill. If you had a lock pick set that would be helpful." % user.name)
 		return self
 		
 	def choose_room_to_run(self):
@@ -438,7 +438,7 @@ class Room ( object ):
 	
 	def fight(self, party, level, mon_attack_first=False):
 		if len(self.monsters) == 0:
-			print 'No one to fight here.'
+			print('No one to fight here.')
 		else:
 			self.do_triggers(party, level, 'on_fight')
 			result = combat.fight(party, self.monsters, self, level, mon_attack_first)
@@ -471,21 +471,21 @@ class Room ( object ):
 			if isinstance(m, GoodNPC):
 				continue
 			if isinstance(m, EvilNPC):
-				print "You can't rest now. %s might steal your gold." % m.name
+				print("You can't rest now. %s might steal your gold." % m.name)
 				return
 			if isinstance(m, Monster):
-				print "You can't rest with monsters in your bed!"
+				print("You can't rest with monsters in your bed!")
 				return
-		print 'You find a comfortable rock and rest your head. Hours flash by in a minute and you awake refreshed.'
+		print('You find a comfortable rock and rest your head. Hours flash by in a minute and you awake refreshed.')
 		for p in party:
 			p.rest()
 			
 	def show_inventory(self, party):
 		for user in party:
-			print "%s's Inventory: " % user.name 
+			print("%s's Inventory: " % user.name) 
 			user.show_inventory()
-			print user.cur_hp, 'hp', user.gp, 'gp'
-			print
+			print(user.cur_hp, 'hp', user.gp, 'gp')
+			print()
 			
 	def who_has(self, party, item_name):
 		who = []
@@ -504,29 +504,29 @@ class Room ( object ):
 		parts = command.split(' ')
 		to_show = None
 		if len(parts) != 2:
-			print 'Choose player to show'
+			print('Choose player to show')
 			to_show = self.choose_player(party)
 		else:
 			to_show = self.get_player(party, parts[1])
 			if to_show is None:
-				print "Couldn't find a player named %s." % parts[1]
+				print("Couldn't find a player named %s." % parts[1])
 		
 		if to_show:
 			to_show.show()
 	
 	def drop(self, party, command):
-		print 'Choose the player who will drop the item'
+		print('Choose the player who will drop the item')
 		who = self.choose_player(party)
 		if who is None:
 			return
 		
-		print 'Choose the item to drop'
+		print('Choose the item to drop')
 		item = self.choose_item(who.inventory)
 		if item is None:
 			return
 			
 		who.remove(item.name)
-		print who.name, 'dropped the %s.' % item.name
+		print(who.name, 'dropped the %s.' % item.name)
 		item.location = 'right where you hid it.'
 		if item.description[-1] == '.':
 			item.description = item.description[:-1]
@@ -536,18 +536,18 @@ class Room ( object ):
 		to_edit = None
 		parts = command.split(' ')
 		if len(parts) != 2:
-			print 'Choose player to edit'
+			print('Choose player to edit')
 			to_edit = self.choose_player(party)
 		else:
 			to_edit = self.get_player(party, parts[1])
 			if to_edit is None:
-				print "Couldn't find a player named %s." % parts[1]
+				print("Couldn't find a player named %s." % parts[1])
 
 		try:
 			if to_edit is None:
 				return
 			if isinstance(to_edit, GoodNPC):
-				print "Sorry, you can't edit guest members of your party."
+				print("Sorry, you can't edit guest members of your party.")
 				return
 			ed = player_editor.PlayerEditor(all_skills)
 			ed.do_edit(to_edit, False)
@@ -563,7 +563,7 @@ class Room ( object ):
 		for item in inven:
 			t.add_row( [ i, item.name, item.description ] )
 			i = i + 1
-		print t.get_string(hrules=HEADER)
+		print(t.get_string(hrules=HEADER))
 		valid = False
 		while not valid:
 			try:
@@ -574,7 +574,7 @@ class Room ( object ):
 				if item_num >= 0 and item_num < len(inven):
 					valid = True
 			except:
-				print 'not a valid number. try again.'
+				print('not a valid number. try again.')
 				
 		return inven[item_num]
 		
@@ -586,7 +586,7 @@ class Room ( object ):
 		for p in plist:
 			t.add_row( [ i, p.name ] )
 			i += 1
-		print t.get_string(hrules=HEADER)
+		print(t.get_string(hrules=HEADER))
 		valid = False
 		while not valid:
 			try:
@@ -597,25 +597,25 @@ class Room ( object ):
 				if p_num >= 0 and p_num < len(plist):
 					valid = True
 			except:
-				print 'not a valid number. try again.'
+				print('not a valid number. try again.')
 		return plist[p_num]
 	
 	def read(self, party, level):
 		if self.num_monsters() != 0:
-			print "Can't cast spells unless you want to start a fight!"
+			print("Can't cast spells unless you want to start a fight!")
 			return
 		
-		print 'Choose the player who will read a scroll'
+		print('Choose the player who will read a scroll')
 		caster = self.choose_player(party)
 		if caster is None or not caster.is_alive():
 			return
 
 		scrolls = caster.get_scrolls()
 		if len(scrolls) == 0:
-			print caster.name, "doesn't have any scrolls."
+			print(caster.name, "doesn't have any scrolls.")
 			return
 			
-		print 'Choose scroll'
+		print('Choose scroll')
 		scroll = self.choose_item(scrolls)
 		if scroll is None:
 			return
@@ -624,14 +624,14 @@ class Room ( object ):
 		elif scroll.targets_group():
 			scroll.cast(caster, [], party)
 		else:
-			print 'Choose target'
+			print('Choose target')
 			target = self.choose_player(party)
 			if target is None:
 				return
 			scroll.cast_at_target(caster, target)
 	
 	def drink(self, party, level):		
-		print 'Choose the player who will drink a potion'
+		print('Choose the player who will drink a potion')
 		caster = self.choose_player(party)
 		if caster is None or not caster.is_alive():
 			return						
@@ -639,26 +639,26 @@ class Room ( object ):
 		
 	def cast(self, party, level):
 		if self.num_monsters() != 0:
-			print "Can't cast spells unless you want to start a fight!"
+			print("Can't cast spells unless you want to start a fight!")
 			return
 		
-		print 'Choose the player who will cast the spell'
+		print('Choose the player who will cast the spell')
 		caster = self.choose_player(party)
 		if caster is None or not caster.is_alive():
 			return
 
 		spells = caster.get_castable_non_combat_spells()
 		if len(spells) == 0:
-			print caster.name, "doesn't have any spells they can use here."
+			print(caster.name, "doesn't have any spells they can use here.")
 			return
 			
-		print 'Choose spell.'
+		print('Choose spell.')
 		spell = self.choose_item(spells)
 		if spell is None:
 			return
 		
 		if spell.mana > caster.cur_mana:
-			print caster.name, "doesn't have enough mana to cast that."
+			print(caster.name, "doesn't have enough mana to cast that.")
 			return
 		
 		caster.cur_mana -= spell.mana
@@ -667,7 +667,7 @@ class Room ( object ):
 		elif spell.targets_group():
 			spell.cast(caster, None, party)
 		else:
-			print 'Choose target'
+			print('Choose target')
 			target = self.choose_player(party)
 			if target is None:
 				return
@@ -693,70 +693,70 @@ class Room ( object ):
 				else:
 					auto_pick = False
 		if auto_pick and thief is None:
-			print "It doesn't look like anyone in your party has the skills for this. Stealth and Pick Pocket are required."
+			print("It doesn't look like anyone in your party has the skills for this. Stealth and Pick Pocket are required.")
 			return self
 
 		if not auto_pick or thief is None:
-			print 'Choose the player who will attempt to steal:'
+			print('Choose the player who will attempt to steal:')
 			thief = self.choose_player(party)
 			if thief is None:
 				return self
 		
 		if not thief.has_skill(SKILL_CAT_STEALTH) and not thief.is_hidden():
-			print thief.name, "doesn't have any stealth skill."
+			print(thief.name, "doesn't have any stealth skill.")
 			return self
 		
 		if not thief.has_skill(SKILL_CAT_PICK_POCKET) and not thief.is_hidden():
-			print thief.name, "doesn't have any pick pocket skill."
+			print(thief.name, "doesn't have any pick pocket skill.")
 			return self
 		
 		if len(self.monsters) == 0:
-			print "There's no one to steal from here. You can just search."
+			print("There's no one to steal from here. You can just search.")
 			return self
 
 		if not thief.can_hide() and not thief.is_hidden():
-			print "You can't be stealthy in anything more than leather armor unless it's magic."
+			print("You can't be stealthy in anything more than leather armor unless it's magic.")
 			return self
 
 		if not thief.is_hidden():
-			print thief.name, 'will attempt to hide first.'
+			print(thief.name, 'will attempt to hide first.')
 			roll = random.randint(1, 20)
-			print "You roll", roll
+			print("You roll", roll)
 			if roll > thief.get_hide_roll_thresh():
-				print thief.name, 'slipped into the shadows.'
+				print(thief.name, 'slipped into the shadows.')
 			else:
-				print thief.name, 'got caught trying to hide!'
+				print(thief.name, 'got caught trying to hide!')
 				util.pause()
 				return self.fight(party, level)
-		print thief.name, 'attempts to steal.'
+		print(thief.name, 'attempts to steal.')
 		roll = random.randint(1, 20)
-		print "You roll", roll
+		print("You roll", roll)
 		if roll < thief.get_pick_pocket_roll_thresh():
-			print thief.name, 'got caught stealing!'
+			print(thief.name, 'got caught stealing!')
 			util.pause()
 			return self.fight(party, level, True)
 		if len(self.items) > 0:
-			print 'Choose item to steal'
+			print('Choose item to steal')
 			item = self.choose_item(self.items)
 			if item is None:
 				return self
 			self.items.remove(item)
 			if item.description[-1] == '.':
 				item.description = item.description[:-1]
-			print thief.name, 'stole %s!!' % item.description
+			print(thief.name, 'stole %s!!' % item.description)
 			thief.add(item)
 			return self
 			
 		try:
 			if self.no_gold:
-				print 'No gold to steal!'
+				print('No gold to steal!')
 				return self
 		except:
 			pass
 
 		#calculate gold
 		gp = self.calc_gold()
-		print thief.name, 'stole %d gp!!!' % (gp)
+		print(thief.name, 'stole %d gp!!!' % (gp))
 		thief.gp += gp
 		thief.add_xp(gp)
 		self.no_gold = True
@@ -766,7 +766,7 @@ class Room ( object ):
 		if len(party) == 1:
 			player = party[0]
 		else:
-			print 'Choose a player'
+			print('Choose a player')
 			player = self.choose_player(party)
 		if player is None:
 			return
@@ -777,7 +777,7 @@ class Room ( object ):
 				activatable.append(item)
 		if len(activatable) == 0:
 			return
-		print 'Choose the item to wear or equip'
+		print('Choose the item to wear or equip')
 		item = self.choose_item(activatable)
 		if item is None:
 			return
@@ -785,24 +785,24 @@ class Room ( object ):
 		
 	def give(self, party, command):
 		if len(party) < 2:
-			print 'Must have a least two people in party to give items'
+			print('Must have a least two people in party to give items')
 			return
 			
-		print 'Choose the player who will give the item'
+		print('Choose the player who will give the item')
 		giver = self.choose_player(party)
 		if giver is None:
 			return
 		
-		print 'Choose the item to give'
+		print('Choose the item to give')
 		item = self.choose_item(giver.inventory)
 		if item is None:
 			return
 		
 		if item.is_spell():
-			print "Spells can't be given away or sold. They are embeded in your spell book."
+			print("Spells can't be given away or sold. They are embeded in your spell book.")
 			return
 		
-		print 'Choose the player to give the', item.name, 'to.'
+		print('Choose the player to give the', item.name, 'to.')
 		reciever = self.choose_player(party)
 		if reciever is None or reciever is giver:
 			return
@@ -811,7 +811,7 @@ class Room ( object ):
 		yn = util.get_input('%s (y, n) -> ' % prompt)
 		if yn == 'y':
 			rem = giver.remove(item.name)
-			print giver.name, 'gave the %s to %s.' % (item.name, reciever.name)
+			print(giver.name, 'gave the %s to %s.' % (item.name, reciever.name))
 			reciever.add(rem)
 			reciever.on_action('give', rem, giver)
 			
@@ -820,18 +820,18 @@ class Room ( object ):
 		self.get_visited_rooms(room_list)
 		room_list.remove(self)
 		if len(room_list) == 0:
-			print "You can fast walk to places once you have visited them."
+			print("You can fast walk to places once you have visited them.")
 			return self
-		print
+		print()
 		print ("Places you have visited:")
-		print
+		print()
 		t = PrettyTable(['sel', 'name'])
 		i = 1
 		for r in room_list:
 			t.add_row([i, r.name])
 			i = i + 1
-		print t.get_string(hrules=HEADER)
-		print
+		print(t.get_string(hrules=HEADER))
+		print()
 		valid = False
 		while not valid:
 			try:
@@ -842,14 +842,14 @@ class Room ( object ):
 				if iSel == -1:
 					valid = True
 			except:
-				print 'not a valid number. try again.'
+				print('not a valid number. try again.')
 		return self
 		
 	def handle_move_dir(self, direction, party):
 		room, door = self.connect_rooms[direction]
 		#can only cross an empty room
 		if self.num_monsters() > 0 and room != self.entered_from_room and not util.DEBUG:
-			print "Can't cross with monsters here!"
+			print("Can't cross with monsters here!")
 			return self
 		#see if there is not door or we can pass
 		return self.handle_door(door, party, room)
@@ -871,7 +871,7 @@ class Room ( object ):
 					return self.fight(party, level, True)
 		except:
 			if util.DEBUG:
-				print "Troubles with room actions"
+				print("Troubles with room actions")
 			
 		command = util.get_input("What would you like to do? -> ")
 		if len(command) < 1:
@@ -924,7 +924,7 @@ class Room ( object ):
 		return self
 		
 	def print_help(self):
-		print "try the commands: search, fight, rest, look, show, go 'direction', inventory, wear, equip, give, drop, walk, cast, read, drink, edit, steal, save, load, quit, help.\n\n Sometimes the first letter of the command or direction is also enough."
+		print("try the commands: search, fight, rest, look, show, go 'direction', inventory, wear, equip, give, drop, walk, cast, read, drink, edit, steal, save, load, quit, help.\n\n Sometimes the first letter of the command or direction is also enough.")
 		
 	def find_room(self, room_name, exclude_dir=None):
 		if self.name == room_name:
@@ -949,7 +949,7 @@ class Room ( object ):
 		
 	def add_missing_rooms(self, loaded_room, exclude_dir=None):
 		if self.name != loaded_room.name:
-			print "Error, shouldn't be comparing rooms of different names:", self.name, loaded_room.name
+			print("Error, shouldn't be comparing rooms of different names:", self.name, loaded_room.name)
 			return
 			
 		#we could update descriptions and other info, in case there was corrections.
@@ -968,7 +968,7 @@ class Room ( object ):
 			try:
 				oroom, odoor = loaded_room.connect_rooms[direction]
 			except:
-				print 'Adding new room:', room.name
+				print('Adding new room:', room.name)
 				force = True
 				loaded_room.connect(direction, room, door, force)
 				continue
@@ -1016,7 +1016,7 @@ def divide_loot(party, treasure):
 			share = t.count / num_alive
 			for p in party:
 				if p.is_alive() and share > 0:
-					print p.name, 'gets', share, 'gold.'
+					print(p.name, 'gets', share, 'gold.')
 					p.gp += share
 					silent = True
 					p.add_xp(share, silent)
@@ -1031,12 +1031,12 @@ def divide_loot(party, treasure):
 			elif t.name.upper()[0] == 'A':
 				article = 'an'
 			if c == 1:
-				print can_use[0].name, 'finds %s %s.' % (article, t.name)
+				print(can_use[0].name, 'finds %s %s.' % (article, t.name))
 				can_use[0].add(t)
 			elif c == 0 and num_alive == 1:
 				for p in party:
 					if p.is_alive():
-						print p.name, 'finds %s %s.' % (article, t.name)
+						print(p.name, 'finds %s %s.' % (article, t.name))
 						p.add(t)
 						break
 			else:
@@ -1046,12 +1046,12 @@ def divide_loot(party, treasure):
 					for p in party:
 						if p.name == who:
 							if p.is_trapped():
-								print p.get_trapped_desc()
+								print(p.get_trapped_desc())
 							else:
-								print p.name, 'gets the %s.' % t.name
+								print(p.name, 'gets the %s.' % t.name)
 								p.add(t)
 								taken = True
 					if not taken:
-						print 'Did not match that name', who, 'with anyone in your party.'
+						print('Did not match that name', who, 'with anyone in your party.')
 	
 

@@ -20,15 +20,15 @@ def init_online():
 
 def get_input(prompt):
 	if online:
-		print '%s' % prompt
+		print('%s' % prompt)
 		if prompt.find('->') == -1:
-			print '->'
-		input = raw_input()
+			print('->')
+		inp = input()
 	elif input_handler is not None:
-		input = input_handler.get_input(prompt)
+		inp = input_handler.get_input(prompt)
 	else:
-		input = raw_input(prompt)
-	return input
+		inp = input(prompt)
+	return inp
 	
 def delete__by_values(lst, values):
     return [ x for x in lst if x not in set(values) ]
@@ -37,19 +37,19 @@ def clear_screen():
 	if online:
 		#this is a platform agnostic symbol to tell clients
 		#to clear the screen.
-		print '<cls>'
+		print('<cls>')
 		return
 	if CRAWL:
 		return
 	if os.name == 'posix':
 		#we may be on cygwin in windows
-		print chr(27) + "[2J"
+		print(chr(27) + "[2J")
 		return
 	os.system('cls' if os.name=='nt' else 'clear')
 
 def pause():
 	if online:
-		print '->' #to flush io
+		print('->') #to flush io
 	
 	if CRAWL:
 		pass

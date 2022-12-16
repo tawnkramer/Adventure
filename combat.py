@@ -83,7 +83,7 @@ def choose_action_and_target(attacker, others):
 		else:
 			actions.append(CombatAction('hide', 'use your stealth skill to hide in shadows.'))
 	
-	print "\n\nActions"
+	print("\n\nActions")
 	t = PrettyTable(['sel', 'action', 'max damage', 'mana', 'description'])
 	i = 1
 	for a in actions:
@@ -95,9 +95,9 @@ def choose_action_and_target(attacker, others):
 			t.add_row([i, a.name, ' ', ' ', a.description])
 		i = i + 1
 		
-	print t.get_string(hrules=HEADER)
-	print
-	print "Targets"
+	print(t.get_string(hrules=HEADER))
+	print()
+	print("Targets")
 	t = PrettyTable(['sel', 'target', 'hp', 'ac', 'disabled'])
 	i = 1
 	for m in others:
@@ -107,15 +107,15 @@ def choose_action_and_target(attacker, others):
 			disabled = 'No'
 		t.add_row([i, m.name, m.cur_hp, m.ac, disabled])
 		i = i + 1
-	print t.get_string(hrules=HEADER)
-	print
+	print(t.get_string(hrules=HEADER))
+	print()
 	show_player_status(attacker)
 	
 	#get input
 	valid = False
 	target = None
 	while not valid:
-		print
+		print()
 		sel = get_input( attacker.name + " - Enter number of sel action (and optional sel target) -> ")
 		iAction = 0
 		iTarget = 0
@@ -164,23 +164,23 @@ def random_target(monster, attack, players, player_actions):
 	
 def show_player_status(p):
 	if p.is_trapped():
-		print p.get_trapped_desc()
+		print(p.get_trapped_desc())
 	elif p.is_disabled():
-		print p.name, 'hp:', p.cur_hp, ' is disabled!'
+		print(p.name, 'hp:', p.cur_hp, ' is disabled!')
 	else:
-		print p.name, 'hp:', p.cur_hp, 'ac:', p.get_ac(), 'mana:', p.cur_mana
+		print(p.name, 'hp:', p.cur_hp, 'ac:', p.get_ac(), 'mana:', p.cur_mana)
 		
 def party_comment(comment, party):
 	for p in party:
 		if p.is_alive():
-			print comment % p.name
+			print(comment % p.name)
 			break
 	
 def show_status(players):
-	print 'Status:'
+	print('Status:')
 	for p in players:
 		show_player_status(p)
-	print
+	print()
 			
 def award_experience(players, monsters):
 	exp_total = 0
@@ -246,8 +246,8 @@ def fight(players, monsters, room, level, mon_attack_first):
 	moral_check_on_half_dead = False
 	level.combat_stats = CombatStats()
 	while not done:
-		print '-------------------------------------------------------'
-		print 'Round', round, '\n'
+		print('-------------------------------------------------------')
+		print('Round', round, '\n')
 		
 		#make sure the armor class is up to date.
 		for p in players:
@@ -298,14 +298,14 @@ def fight(players, monsters, room, level, mon_attack_first):
 					hp_rec = HP_RECOVERED_FROM_REST * player.level
 					if player.cur_hp <= (player.hp / 2) - hp_rec:
 						player.cur_hp += hp_rec
-						print player.name, 'regains', hp_rec, 'hp after blocking and resting.'
+						print(player.name, 'regains', hp_rec, 'hp after blocking and resting.')
 				elif action.name == 'run':
 					num_items = len(player.inventory)
 					if num_items > 0:
 						iDrop = random.randint(0, num_items - 1)
 						item = player.inventory[iDrop]
 						if not item.is_weapon() and not item.is_spell() and not item.is_armor():
-							print player.name, 'bolts for the door and drops his', item.name, 'in haste!'
+							print(player.name, 'bolts for the door and drops his', item.name, 'in haste!')
 							player.remove(item.name)
 							room.items.append(item)
 					award_experience(players, monsters)
@@ -317,12 +317,12 @@ def fight(players, monsters, room, level, mon_attack_first):
 					return "run"
 				elif action.name == 'hide':
 					roll = random.randint(1, 20)
-					print player.name, 'rolls %d.' % roll
+					print(player.name, 'rolls %d.' % roll)
 					if roll >= player.get_hide_roll_thresh():
-						print player.name, 'slips into the shadows silently.'
+						print(player.name, 'slips into the shadows silently.')
 						player.set_hidden(True)
 					else:
-						print player.name, 'was not able to hide.'
+						print(player.name, 'was not able to hide.')
 				elif action.name == 'draw':
 					room.activate([player])
 				elif action.name == 'drink':
@@ -340,27 +340,27 @@ def fight(players, monsters, room, level, mon_attack_first):
 					hp_rec = HP_RECOVERED_FROM_REST * player.level
 					if player.cur_hp <= (player.hp / 2) - hp_rec:
 						player.cur_hp += hp_rec
-						print player.name, 'regains', hp_rec, 'hp while hiding.'
+						print(player.name, 'regains', hp_rec, 'hp while hiding.')
 			add_player_target(player, action, player_targets, player_actions)
 					
 		#check for morale of monsters
 		if not moral_check_on_first_dead and one_dead(monsters) and len(monsters) > 1:
 			moral_check_on_first_dead = True
 			if random.randint(1, 10) < 4:
-				print 'The rest of the creatures flee in terror!'
+				print('The rest of the creatures flee in terror!')
 				award_experience(players, monsters)
 				return 'won'
 		if not moral_check_on_half_dead and half_dead(monsters) and len(monsters) > 3:
 			moral_check_on_half_dead = True
 			if random.randint(1, 10) < 5:
-				print 'The rest of the creatures flee in terror!'
+				print('The rest of the creatures flee in terror!')
 				award_experience(players, monsters)
 				return 'won'
 		
 		#only use once. Surprise attack
 		if mon_attack_first:
 			if random.randint(1, 2) < 2:
-				print "It's a surprise attack!"
+				print("It's a surprise attack!")
 				tohit_mod += 2
 			else:
 				party_comment('%s yells, "Look out!"', players) 
@@ -372,14 +372,14 @@ def fight(players, monsters, room, level, mon_attack_first):
 				monsters.remove(monster)
 			
 		if all_dead(monsters):
-			print "You defeated all the enemies!!\n"
+			print("You defeated all the enemies!!\n")
 			sitch = [WON]
 			print_comment(sitch, players, room, level)
 			award_experience(players, monsters)
 			return 'won'
 			
 		if all_dead(players):
-			print 'And everything fades to black. Better to have run.. oh well!!'
+			print('And everything fades to black. Better to have run.. oh well!!')
 			return 'died'
 			
 		for monster in monsters:
@@ -388,6 +388,6 @@ def fight(players, monsters, room, level, mon_attack_first):
 		for player in players:
 			if player.is_alive():
 				player.on_combat_round_ended()
-		print
+		print()
 		round = round + 1
 		

@@ -42,8 +42,8 @@ import unicodedata
 
 py3k = sys.version_info[0] >= 3
 if py3k:
-    unicode = str
-    basestring = str
+    str = str
+    str = str
     itermap = map
     iterzip = zip
     uni_chr = chr
@@ -51,8 +51,8 @@ if py3k:
 else: 
     itermap = itertools.imap
     iterzip = itertools.izip
-    uni_chr = unichr
-    from HTMLParser import HTMLParser
+    uni_chr = chr
+    from html.parser import HTMLParser
 
 if py3k and sys.version_info[1] >= 2:
     from html import escape
@@ -171,10 +171,10 @@ class PrettyTable(object):
         self._attributes = kwargs["attributes"] or {}
    
     def _unicode(self, value):
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             value = str(value)
-        if not isinstance(value, unicode):
-            value = unicode(value, self.encoding, "strict")
+        if not isinstance(value, str):
+            value = str(value, self.encoding, "strict")
         return value
 
     def _justify(self, text, width, align):
@@ -331,7 +331,7 @@ class PrettyTable(object):
         if val == "":
             return
         try:
-            assert type(val) in (str, unicode)
+            assert type(val) in (str, str)
             assert val.isdigit()
         except AssertionError:
             raise Exception("Invalid value for %s!  Must be an integer format string." % name)
@@ -340,7 +340,7 @@ class PrettyTable(object):
         if val == "":
             return
         try:
-            assert type(val) in (str, unicode)
+            assert type(val) in (str, str)
             assert "." in val
             bits = val.split(".")
             assert len(bits) <= 2
@@ -1054,7 +1054,7 @@ class PrettyTable(object):
 
     def _stringify_row(self, row, options):
        
-        for index, field, value, width, in zip(range(0,len(row)), self._field_names, row, self._widths):
+        for index, field, value, width, in zip(list(range(0,len(row))), self._field_names, row, self._widths):
             # Enforce max widths
             lines = value.split("\n")
             new_lines = []
@@ -1318,7 +1318,7 @@ def from_csv(fp, field_names = None, **kwargs):
         if py3k:
             table.field_names = [x.strip() for x in next(reader)]
         else:
-            table.field_names = [x.strip() for x in reader.next()]
+            table.field_names = [x.strip() for x in next(reader)]
 
     for row in reader:
         table.add_row([x.strip() for x in row])

@@ -81,7 +81,7 @@ class CavesLevelLogic(LevelLogic):
 		done = have_all_shards(party)
 		if done:
 			global end_message
-			print end_message
+			print(end_message)
 			if util.CRAWL:
 				while True:
 					pass
@@ -108,7 +108,7 @@ class InnSearch(RoomTrigger):
 		
 	def on_triggered(self, room, party, level):
 		for c in self.comments:
-			print c
+			print(c)
 			self.comments.remove(c)
 			break
 		return len(self.comments) == 0
@@ -159,22 +159,22 @@ class RumorsQueryResponse(QueryResponse):
 		
 	def response(self, reply, party):
 		if reply == 'n':
-			print '''She shrugs, "Then that's the last you'll see of me." She disappears into the shadows of an alley. You notice she leaves no footprints in the mud.'''
+			print('''She shrugs, "Then that's the last you'll see of me." She disappears into the shadows of an alley. You notice she leaves no footprints in the mud.''')
 			return True
 		while reply == 'y':
 			num_rumors = len(self.rumors)
 			if num_rumors == 0:
-				print 'She shrugs, "You are too curious. Be gone with you, before I make something else up." She disappears into the shadows of an alley. You notice she leaves no footprints in the mud.'
+				print('She shrugs, "You are too curious. Be gone with you, before I make something else up." She disappears into the shadows of an alley. You notice she leaves no footprints in the mud.')
 				return True
 			paid = False
 			for p in party:
 				if p.gp > 1:
-					print p.name, 'gives her 1gp.'
+					print(p.name, 'gives her 1gp.')
 					p.gp -= 1
 					paid = True
 					break
 			if not paid:
-				print '"Ha, you have no coins for me? Then figure it out fer yerself."'
+				print('"Ha, you have no coins for me? Then figure it out fer yerself."')
 				break
 			if num_rumors == 1:
 				r = self.rumors[0]
@@ -185,7 +185,7 @@ class RumorsQueryResponse(QueryResponse):
 				self.rumors.remove(r)
 			iDel = random.randint(0, len(self.delivery) - 1)
 			dl = self.delivery[iDel]
-			print (dl % r)
+			print((dl % r))
 			reply = get_input('"Want to know more? (y, n) -> ')
 		return False
 			
@@ -201,13 +201,13 @@ class RescueWatcher(RoomTrigger):
 		tr = []
 		for p in party:
 			if p.name == 'Shelila':
-				print 'Shelila says, "Home at last! I never thought I would be so happy to see this little town. Let me repay you with these potions." She gives you a big hug and kiss and departs with a wave.\n'
+				print('Shelila says, "Home at last! I never thought I would be so happy to see this little town. Let me repay you with these potions." She gives you a big hug and kiss and departs with a wave.\n')
 				tr.append(MAG_ITEM("Potion of Healing"))
 				tr.append(MAG_ITEM("Potion of Invisibility"))
 				party.remove(p)
 		for p in party:
 			if p.name == 'Ribald McMillini':
-				print 'Ribald bows, "My Guild thanks you deeply for your service, as do I. Please accept this gold as a small token of our grattitude." He bows once more before leaving.\n'
+				print('Ribald bows, "My Guild thanks you deeply for your service, as do I. Please accept this gold as a small token of our grattitude." He bows once more before leaving.\n')
 				tr.append(GP(100))
 				party.remove(p)
 		if len(tr) > 0:
@@ -390,15 +390,15 @@ class FallingNetTrap(RoomTrigger):
 				trapped.append(p)
 				any_trapped = True
 		if len(trapped) == 0:
-			print 'Whew! Someone spotted a trip wire and everyone avoided the trap net hanging overhead!'
+			print('Whew! Someone spotted a trip wire and everyone avoided the trap net hanging overhead!')
 		else:
-			print trapped[0].name, 'tripped on a secret wire causing a large net to fall on the party!'
+			print(trapped[0].name, 'tripped on a secret wire causing a large net to fall on the party!')
 			for p in trapped:
 				p.disabled = random.randint(1, 4)
-				print p.name, 'is caught in the tar covered sticky net for %d rounds!' % p.disabled
+				print(p.name, 'is caught in the tar covered sticky net for %d rounds!' % p.disabled)
 				#we are adding one, because we are skipped in the ambush on the first round, making it moot
 				p.disabled += 1
-			print 'The net is covered in alarm bells that make a loud noise.'
+			print('The net is covered in alarm bells that make a loud noise.')
 			#trigger an ambush from the orcs in the common room
 			room.room_actions.append(AmbushRoomTrigger())
 			#set the monsters
@@ -518,7 +518,7 @@ class CellRoomHandler(RoomTrigger):
 		return True
 		
 	def on_triggered(self, room, party, level):
-		print '''
+		print('''
   The three prisoners cheer as they see their captors go down. You find the keys on the belt of the large hobgoblin and open the cell door.
 		
   A chubby, older gentleman introduces himself, "Ribald McMillini at your service.", he says with a stiff bow, his back somewhat in pain. "And I thank you from the bottom of my heart! We have been locked here for an age. And only tonight these horrible creatures had planned to eat me for dinner! I can only shiver to think of that fate. For safe passage to Kendar, my guild will reward you handsomely."
@@ -526,18 +526,18 @@ class CellRoomHandler(RoomTrigger):
   "And I'm Shelila." says the next captive with a curtsy. She smiles shyly. "And I too thank you for your galantry. I can not repay you now, but would gladly reward you if you were to take me to Kendar."
 		
   "I too salute your bravery." says the rough, strong looking third captive. "I am called Archos. And if you would give me steel I will fight by your side as long as you see fit."
-		'''
+		''')
 		yn = util.get_input("Would you accept Ribald into your party? (y, n) -> ")
 		if yn == 'y':
-			print 'Ribald bows deeply. "I am forever in your debt."\n'
+			print('Ribald bows deeply. "I am forever in your debt."\n')
 			party.append(self.merchant)
 		yn = util.get_input("Would you accept Shelila into your party? (y, n) -> ")
 		if yn == 'y':
-			print '''Shelila squeels happily, "I can't wait to go home!"\n'''
+			print('''Shelila squeels happily, "I can't wait to go home!"\n''')
 			party.append(self.lady)
 		yn = util.get_input("Would you accept Archos into your party? (y, n) -> ")
 		if yn == 'y':
-			print 'Archos shakes your hand. "I am your servant."\n'
+			print('Archos shakes your hand. "I am your servant."\n')
 			party.append(self.mercenary)
 		room.monsters = []
 		return True
@@ -568,10 +568,10 @@ class ArmoryHandler(RoomTrigger):
 	def on_triggered(self, room, party, level):
 		if len(self.inv) == 0:
 			return True
-		print 'There are a range of amory to choose from. Take your pick:'
-		print '0\tnothing'
+		print('There are a range of amory to choose from. Take your pick:')
+		print('0\tnothing')
 		for i in range(0, len(self.inv)):
-			print i + 1, '\t%s' % self.inv[i].name
+			print(i + 1, '\t%s' % self.inv[i].name)
 		iChoiceS = get_input('Enter number to get item -> ')
 		try:
 			iChoice = int(iChoiceS)
@@ -580,7 +580,7 @@ class ArmoryHandler(RoomTrigger):
 				divide_loot(party, [item])
 				self.inv.remove(item)
 		except:
-			print iChoiceS, "is not a valid choice."
+			print(iChoiceS, "is not a valid choice.")
 		if len(self.inv) == 0:
 			room.description = 'This room is filled with empty racks.'
 		return False
@@ -598,7 +598,7 @@ class UnlimitedFoodLarder(RoomTrigger):
 		return len(room.monsters) == 0
 	
 	def on_triggered(self, room, party, level):
-		print "There is enough food and drink here to feed an army!"
+		print("There is enough food and drink here to feed an army!")
 		yn = util.get_input("Would you like to grab 10 food and water for each in your party? (y, n) -> ")
 		if yn == 'y':
 			for p in party:
@@ -607,7 +607,7 @@ class UnlimitedFoodLarder(RoomTrigger):
 					for i in range(0, 10):
 						p.add(ITEM('hard tack'))
 						p.add(ITEM('water'))
-			print 'Everyone is loaded up with food and water!'
+			print('Everyone is loaded up with food and water!')
 		return False
 	
 hgoblin_storage_rm = Room("Hobgoblin Storage Room", None, "Stacks and heaps of supplies pack this large, cold, chamber.", 'a storage room.', [], [ Mon('Goblin', 'A Hobgoblin guards sits here on a bench. He looks like he was just about to doze off.') ], [UnlimitedFoodLarder()] )
@@ -664,9 +664,9 @@ class BugbearTrick(RoomTrigger):
 		if not self.offered:
 			yn = util.get_input( 'One bugbear offers you skewer of meat, "Welcome friends! Would you like to sit and have some meat?" (y, n) -> ' )
 			if yn == 'y':
-				print "One bugbear hands you a skewer of meat. It's lightly salted and quite yummy!"
+				print("One bugbear hands you a skewer of meat. It's lightly salted and quite yummy!")
 			else:
-				print "The bugbear scowls and throws down the meat."
+				print("The bugbear scowls and throws down the meat.")
 			self.offered = True
 		return self.ambushed
 
@@ -700,13 +700,13 @@ class BBCellRoomHandler(RoomTrigger):
 		return True
 		
 	def on_triggered(self, room, party, level):
-		print "Just inside the cell you see a lockbox. A quick kick and it's open. You can see the large ring of keys on it."
+		print("Just inside the cell you see a lockbox. A quick kick and it's open. You can see the large ring of keys on it.")
 		yn = util.get_input("Would you unlock the chains of the prisoners? (y, n) -> ")
 		if yn == 'y':
-			print self.freed
+			print(self.freed)
 			return True
 		else:
-			print self.detained
+			print(self.detained)
 		return False
 
 bbCellA = BBCellRoomHandler('''The prisoners cheer weakly, "Yaaay! Huzah!!",  There are orcs, humans, gnolls, a dwarf, and two elves locked up here. Not sure what to do with their newfound freedom, some pause.

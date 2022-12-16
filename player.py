@@ -65,9 +65,9 @@ class Player(object):
 		
 	def on_action(self, action_name, item, other):
 		if(action_name == 'give'):
-			print self.name, 'says thanks!'
+			print(self.name, 'says thanks!')
 			return True
-		print self.name, 'shrugs unsure of what', action_name, 'means.'
+		print(self.name, 'shrugs unsure of what', action_name, 'means.')
 		return False
 
 		
@@ -341,9 +341,9 @@ class Player(object):
 			outfile = open(filename, "wb")
 			pickle.dump(self, outfile)
 			outfile.close()
-			print 'Saved %s.' % self.name
+			print('Saved %s.' % self.name)
 		except:
-			print 'Failed to save player to:', filename
+			print('Failed to save player to:', filename)
 			return False
 		return True
 		
@@ -363,7 +363,7 @@ class Player(object):
 				infile.close()
 			except:
 				if util.DEBUG:
-					print 'Failed to load player from:', filename
+					print('Failed to load player from:', filename)
 				return None
 		
 		#attempt to auto-add new class members
@@ -478,7 +478,7 @@ class Player(object):
 		self.blessed = 0
 		self.update_attribute_mods()
 		if not self.is_alive():
-			print self.name, 'is damaged mortally, and in dire need of a high priest.'
+			print(self.name, 'is damaged mortally, and in dire need of a high priest.')
 		
 	
 	def on_combat_round_ended(self):
@@ -521,59 +521,59 @@ class Player(object):
 			elif item.is_drink():
 				num_drink += 1
 			else:
-				print ' %s,' % item.name, item.description
+				print(' %s,' % item.name, item.description)
 		
 		if num_food > 0:
-			print ' food x', num_food
+			print(' food x', num_food)
 		if num_drink > 0:
-			print ' drink x', num_drink
+			print(' drink x', num_drink)
 		
 	def show(self):
 		mod_list = self.get_attribute_mode_strings()
 		self.update_armor_class()
-		print '--------------------------------------'
-		print ' Player:', self.name
-		print
-		print '  hp:', self.hp + (self.hp_mod * self.level), 'ac:', self.get_ac(), 'mana:', self.mana, 'xp:', self.experience, 'level:', self.level
-		print '  current hp:', self.cur_hp, 'current mana:', self.cur_mana
-		print 
-		print '  strength:\t', self.strength, mod_list[0]
-		print '  intelligence:\t', self.intelligence, mod_list[1]
-		print '  wisdom:\t', self.wisdom, mod_list[2]
-		print '  dexterity:\t', self.dexterity, mod_list[3]
-		print '  constitution:\t', self.constitution, mod_list[4]
-		print '  charisma:\t', self.charisma, mod_list[5]
-		print
-		print '  alignment:\t', self.alignment
-		print '  race:\t\t', self.race
-		print '  sex:\t\t', self.sex
-		print '  age:\t\t', self.age
-		print
+		print('--------------------------------------')
+		print(' Player:', self.name)
+		print()
+		print('  hp:', self.hp + (self.hp_mod * self.level), 'ac:', self.get_ac(), 'mana:', self.mana, 'xp:', self.experience, 'level:', self.level)
+		print('  current hp:', self.cur_hp, 'current mana:', self.cur_mana)
+		print() 
+		print('  strength:\t', self.strength, mod_list[0])
+		print('  intelligence:\t', self.intelligence, mod_list[1])
+		print('  wisdom:\t', self.wisdom, mod_list[2])
+		print('  dexterity:\t', self.dexterity, mod_list[3])
+		print('  constitution:\t', self.constitution, mod_list[4])
+		print('  charisma:\t', self.charisma, mod_list[5])
+		print()
+		print('  alignment:\t', self.alignment)
+		print('  race:\t\t', self.race)
+		print('  sex:\t\t', self.sex)
+		print('  age:\t\t', self.age)
+		print()
 		#print ' inventory:'
 		#self.show_inventory()
 		
 		if self.active_weapon:
-			print '  active weapon:', self.active_weapon.name
+			print('  active weapon:', self.active_weapon.name)
 		if self.active_armor:
-			print '  active armor:', self.active_armor.name
+			print('  active armor:', self.active_armor.name)
 		if self.active_shield:
-			print '  active shield:', self.active_shield.name
+			print('  active shield:', self.active_shield.name)
 		#print '  active items:', self.active_items
-		print
-		print ' skill pts:', self.sp
-		print ' skills:'
+		print()
+		print(' skill pts:', self.sp)
+		print(' skills:')
 		for s in self.skills:
-			print " ", s.name, 'level', s.level
-		print
-		print '  gold:', self.gp
-		print
+			print(" ", s.name, 'level', s.level)
+		print()
+		print('  gold:', self.gp)
+		print()
 		if self.is_trapped():
-			print '  description:', self.get_trapped_desc()
+			print('  description:', self.get_trapped_desc())
 		else:
-			print '  description:', self.description
-		print '  personality traits:', self.personality
-		print '  history:', self.history
-		print '--------------------------------------'
+			print('  description:', self.description)
+		print('  personality traits:', self.personality)
+		print('  history:', self.history)
+		print('--------------------------------------')
 
 		
 	def add(self, item):
@@ -583,19 +583,19 @@ class Player(object):
 
 	def activate(self, item):
 		if not self.has_skill(item.cat):
-			print self.name, 'needs %s training to use a %s.' % (get_skill_str(item.cat), item.name)
+			print(self.name, 'needs %s training to use a %s.' % (get_skill_str(item.cat), item.name))
 			return
 		if item.is_weapon():
 			if self.active_shield is not None and item.is_two_handed():
-				print "You can't use a two handed weapon while using a shield."
-				print 'Putting away shield.'
+				print("You can't use a two handed weapon while using a shield.")
+				print('Putting away shield.')
 				self.active_shield = None
 			self.active_weapon = item
 		elif item.is_armor() and item.cat == SKILL_CAT_ARMOR:
 			self.active_armor = item
 		elif item.is_armor() and item.cat == SKILL_CAT_SHIELD:
 			if self.active_weapon is not None and self.active_weapon.is_two_handed():
-				print "You can't use a shield while holding a two handed weapon."
+				print("You can't use a shield while holding a two handed weapon.")
 				return
 			self.active_shield = item
 		else:
@@ -647,7 +647,7 @@ class Player(object):
 			if skill.cat == cat:
 				return True
 		if util.DEBUG:
-			print 'Adding skills required for this activity. DEBUG only!', get_skill_str(cat)
+			print('Adding skills required for this activity. DEBUG only!', get_skill_str(cat))
 			self.add_skill(cat)
 			return True			
 		return False
@@ -760,7 +760,7 @@ class Player(object):
 	def drink_potion(self):
 		potions = self.get_potions()
 		if len(potions) == 0:
-			print 'no potions to drink.'
+			print('no potions to drink.')
 			return False
 		potion = self.choose_item(potions)
 		if potion is not None:
@@ -770,7 +770,7 @@ class Player(object):
 	def read_scroll(self, enemies, friends, room, level):
 		scrolls = self.get_scrolls()
 		if len(scrolls) == 0:
-			print 'no scrolls to use.'
+			print('no scrolls to use.')
 			return False
 		scroll = self.choose_item(scrolls)
 		if scroll is not None:
@@ -779,12 +779,12 @@ class Player(object):
 			else:
 				scroll.cast(self, enemies, friends)
 			self.remove(scroll.name)
-			print 'The scroll collapses into dust.'
+			print('The scroll collapses into dust.')
 			
 	def use_wand(self, enemies, friends, room, level):
 		wands = self.get_wands()
 		if len(wands) == 0:
-			print 'no scrolls to use.'
+			print('no scrolls to use.')
 			return False
 		wand = self.choose_item(wands)
 		if wand is not None:
@@ -801,7 +801,7 @@ class Player(object):
 		for item in inven:
 			t.add_row( [ i, item.name, item.description ] )
 			i = i + 1
-		print t.get_string(hrules=HEADER)
+		print(t.get_string(hrules=HEADER))
 		valid = False
 		while not valid:
 			try:
@@ -812,22 +812,22 @@ class Player(object):
 				if item_num >= 0 and item_num < len(inven):
 					valid = True
 			except:
-				print 'not a valid number. try again.'
+				print('not a valid number. try again.')
 				
 		return inven[item_num]
 		
 	def rest(self):
 		if self.has('Ring of Regeneration'):
-			print self.name, 'uses', self.get_pronoun_lower(), 'Ring of Regeneration and recovers quickly.'
+			print(self.name, 'uses', self.get_pronoun_lower(), 'Ring of Regeneration and recovers quickly.')
 			self.fully_healed()
 		elif not self.is_alive():
-			print self.name, 'is damaged mortally. Rest recovers little.'
+			print(self.name, 'is damaged mortally. Rest recovers little.')
 		elif self.has('Flask of Plenty'):
-			print self.name, 'uses', self.get_pronoun_lower(), 'Flask of Plenty and rests well.'
+			print(self.name, 'uses', self.get_pronoun_lower(), 'Flask of Plenty and rests well.')
 			self.fully_healed()
 		elif not self.is_fully_healed():
 			if self.get_food() is None or self.get_drink() is None:
-				print self.name, 'rests, but can not recover well without food and water.'
+				print(self.name, 'rests, but can not recover well without food and water.')
 			else:
 				self.remove(self.get_food().name)
 				self.remove(self.get_drink().name)
@@ -841,16 +841,16 @@ class Player(object):
 		if util.DEBUG:
 			return
 		if not silent:
-			print self.name, 'is awarded', reward, 'xp.'
+			print(self.name, 'is awarded', reward, 'xp.')
 		self.experience += reward
 		if self.experience > self.xp_for_next_level():
 			self.level += 1
 			self.sp += 4
 			hp_add = random.randint(4, 8)
 			self.hp += hp_add
-			print self.name, 'has achieved level', self.level, '!!!'
-			print 'Hp improved by %d.' % hp_add
-			print 'And 4 more skill points to spend!'
+			print(self.name, 'has achieved level', self.level, '!!!')
+			print('Hp improved by %d.' % hp_add)
+			print('And 4 more skill points to spend!')
 			self.update_attribute_mods()
 			util.pause()
 			util.pause()

@@ -29,11 +29,11 @@ class Shop(object):
 		self.player = p
 		if self.name is None:
 			return
-		print '\n\n--------------------------------------------'
-		print ' ', self.name
-		print
-		print self.description
-		print
+		print('\n\n--------------------------------------------')
+		print(' ', self.name)
+		print()
+		print(self.description)
+		print()
 		
 	def show_items(self):
 		if self.show is None:
@@ -59,7 +59,7 @@ class Shop(object):
 			
 		count = len(self.list)
 		i = 0
-		print '\nItems:\n'
+		print('\nItems:\n')
 		header = ['sel', 'name', 'cost', 'description']
 		if self.show == 'spells' or self.show == 'healing':
 			header.append('mana')
@@ -83,16 +83,16 @@ class Shop(object):
 			else:
 				t.add_row( [i, '%s%s' % (item.name, mark), item.cost.get_str(), item.description] )
 		result = t.get_string(hrules=HEADER)
-		print result
+		print(result)
 		if show_mark_help:
-			print '* : requires additional training.'
+			print('* : requires additional training.')
 		self.show_player_gp()
-		print
+		print()
 		
 	def make_purchase(self, sel):
 		global DEBUG
 		if sel < 0 or sel >= len(self.list):
-			print 'Selection was not valid.'
+			print('Selection was not valid.')
 			return False
 		item = self.list[sel]
 		count = 1
@@ -100,11 +100,11 @@ class Shop(object):
 			cstr = get_input('This item can be purchased in quantity. How many would you like? -> ')
 			count = int(cstr)			 
 		if self.player.gp < item.cost.count * count and not DEBUG:
-			print 'The player does not have enough money for this purchase'
+			print('The player does not have enough money for this purchase')
 			pause()
 			return False
 		if not self.player.has_skill(item.cat):
-			print 'The player does not have the training to use this item. Skill required:', get_skill_str(item.cat)
+			print('The player does not have the training to use this item. Skill required:', get_skill_str(item.cat))
 			yn = get_input('Would you like to buy anyway? (y, n) -> ')
 			if yn == 'n':
 				return False
@@ -118,23 +118,23 @@ class Shop(object):
 			self.player.activate(item)
 		self.unsaved_changes = True
 		if count > 1:
-			print self.player.name, 'has purchased', count, item.name, 'for', item.cost.count * count, 'gp.'
+			print(self.player.name, 'has purchased', count, item.name, 'for', item.cost.count * count, 'gp.')
 		else:
-			print self.player.name, 'has purchased', item.name, 'for %s.' % item.cost.get_str()
-		print self.player.name, 'has', self.player.gp, 'gp remaining.'
+			print(self.player.name, 'has purchased', item.name, 'for %s.' % item.cost.get_str())
+		print(self.player.name, 'has', self.player.gp, 'gp remaining.')
 		return True
 		
 	def show_player_items(self):
-		print self.player.name, 'Items:'
+		print(self.player.name, 'Items:')
 		self.player.show_inventory()
-		print 'gp: ', self.player.gp
+		print('gp: ', self.player.gp)
 
 	def show_player_gp(self):
-		print self.player.name, 'gp:', self.player.gp
+		print(self.player.name, 'gp:', self.player.gp)
 		
 	def sell(self):
 		clear_screen()
-		print self.player.name, 'Items:'
+		print(self.player.name, 'Items:')
 		t = PrettyTable(['sel', 'name', 'sell price'])
 		i = 1
 		#sell things for a fraction the original cost
@@ -151,29 +151,29 @@ class Shop(object):
 			to_sell.append(item)
 			t.add_row([i, item.name, cost])
 			i = i + 1
-		print t.get_string(hrules=ALL)
-		print
+		print(t.get_string(hrules=ALL))
+		print()
 		sel = get_input("Enter the sel of the item to sell, 0 for cancel -> ")
 		try:
 			iSel = int(sel) - 1
 			if iSel >= 0 and iSel < len(to_sell):
 				item = to_sell[iSel]
 				if item.is_spell():
-					print "Spells can't be sold or given away. They are embeded in your spell book."
+					print("Spells can't be sold or given away. They are embeded in your spell book.")
 					return
 				yn = get_input( "Are you sure %s wants to sell %s for %d gold? (y, n) -> " % (self.player.name, item.name, int(item.cost.count * fc) ) )
 				if yn == 'y':
 					self.player.gp += int(item.cost.count * fc)
 					self.player.remove(item.name)
-					print item.name, 'is sold.'
+					print(item.name, 'is sold.')
 		except:
-			print 'input not a number.'
+			print('input not a number.')
 	
 	def print_menu(self):
 		if self.show is None:
-			print '\nLook at:\n w-weapons\n m-magic\n h-healing\n a-armor\n e-equipment\n g-magic items\n i-show your items\n s-sell\n l-leave'
+			print('\nLook at:\n w-weapons\n m-magic\n h-healing\n a-armor\n e-equipment\n g-magic items\n i-show your items\n s-sell\n l-leave')
 		else:
-			print 'Enter item sel number to purchase\n i-show your items\n s-sell\n b-back\n l-leave'
+			print('Enter item sel number to purchase\n i-show your items\n s-sell\n b-back\n l-leave')
 		
 	def get_command(self):
 		com = get_input("\nEnter command -> ")
@@ -240,15 +240,15 @@ class ShopRoom(Room):
 			if len(party) == 1:
 				user = party[0]
 			else:
-				print 'Select player to shop'
+				print('Select player to shop')
 				user = self.choose_player(party)
 				if user is None:
 					done = True
 			if user is not None:
 				if user.is_trapped():
-					print user.name, "can't shop.", user.get_trapped_desc()
+					print(user.name, "can't shop.", user.get_trapped_desc())
 				elif not user.is_alive():
-					print user.name, "can't shop. He is barely conscious."
+					print(user.name, "can't shop. He is barely conscious.")
 				else:
 					self.shop.enter_shop(user)
 					while self.shop.do_shop():
@@ -259,7 +259,7 @@ class ShopRoom(Room):
 				yn = get_input("Does anyone else want to shop? (y, n) -> ")
 				if yn == 'n':
 					done = True
-		print 'Leaving %s.' % self.name
+		print('Leaving %s.' % self.name)
 		pause()
 		return self.choose_room_to_run()
 	

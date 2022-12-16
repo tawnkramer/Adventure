@@ -18,7 +18,7 @@ class adventure_app(object):
 		command = ['python', '-u', self.levelname, 'online']
 		
 		if VERBOSE:
-			print 'starting subprocess with', command
+			print('starting subprocess with', command)
 		
 		#start the process and let it run.
 		self.process = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -33,7 +33,7 @@ class adventure_app(object):
 		if self.process is None:
 			return False
 		if self.process.returncode is not None:
-			print 'terminated with', self.process.returncode
+			print('terminated with', self.process.returncode)
 			return False
 		line = self.process.stdout.readline()
 		if line == '' and self.process.poll() != None:
@@ -52,7 +52,7 @@ class adventure_app(object):
 	
 	def stop(self):
 		if VERBOSE:
-			print 'stopping app subprocess'
+			print('stopping app subprocess')
 		try:
 			if self.process is not None:
 				self.process.terminate()
@@ -105,7 +105,7 @@ class app_runner(object):
 					self.send_clients(''.join(output))
 					output = []
 		except:
-			print 'sub proccess poll stopped'
+			print('sub proccess poll stopped')
 			self.app = None
 			
 	def threaded_run(self):
@@ -138,11 +138,11 @@ class GameClient(object):
 				if self.to_send is not None:
 					for data in self.to_send:
 						if VERBOSE:
-							print 'sending', data
+							print('sending', data)
 						self.sock.sendall(data)
 					self.to_send = None
 			if exceptional:
-				print 'maybe this connection closed?'
+				print('maybe this connection closed?')
 		except:
 			pass
 			
@@ -201,7 +201,7 @@ class GameServer(object):
 			try:
 				c.poll(self)
 			except:
-				print c.name, 'dropped connection'
+				print(c.name, 'dropped connection')
 				self.the_app.clients.remove(c)
 				self.clients.remove(c)
 				for oc in self.clients:
@@ -209,14 +209,14 @@ class GameServer(object):
 				
 	def on_recv_client_data(self, data, client):
 		if data.find('<player>') == -1:
-			print 'got', data
+			print('got', data)
 		if data.find('<login>') != -1:
 			args = data.split('|')
 			if len(args) == 2:
 				name = args[1]
 				client.name = name
 				self.the_app.clients.append(client)
-				print 'added client', name
+				print('added client', name)
 				welcomeStr = 'Welcome %s!\n' % name
 				if len(self.clients) == 1:
 					for arg in sys.argv:
@@ -242,7 +242,7 @@ class GameServer(object):
 			#self.the_app.threaded_run()
 		elif data.find('<quit>') != -1:
 			name = client.name
-			print name, 'is quiting.'
+			print(name, 'is quiting.')
 			self.the_app.clients.remove(client)
 			self.clients.remove(client)
 			self.broadcast('%s left.\n' % name)
@@ -285,7 +285,7 @@ class ConnectionServer(object):
 		self.sock.bind((host, port))
 		self.sock.listen(5)
 		self.game_server = game_server
-		print 'listening on', port
+		print('listening on', port)
 
 	def poll(self):
 		try:
@@ -294,7 +294,7 @@ class ConnectionServer(object):
 				pass
 			else:
 				sock, addr = pair
-				print 'Incoming connection from %s' % repr(addr)
+				print('Incoming connection from %s' % repr(addr))
 				client = GameClient(sock, addr)
 				self.game_server.add_client(client)
 		except:

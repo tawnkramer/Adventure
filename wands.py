@@ -24,17 +24,17 @@ class Wand(Spell):
 	def use_charge(self, caster):
 		self.charges -= 1
 		if self.charges <= 0:
-			print "The wand's energy has run out! It vanishes in a poof!"
+			print("The wand's energy has run out! It vanishes in a poof!")
 			caster.inventory.remove(self)
 
 class WandOfParalyzation(Wand):
 	
 	def cast(self, caster, enemies, friends):
-		print 'Who to target with paralyzation?'
+		print('Who to target with paralyzation?')
 		target = self.choose_target(enemies)
 		if target is None:
 			return
 		target.disabled = 10
-		print '%s suddenly freezes completely, eyes wide with surpise.' % target.name
+		print('%s suddenly freezes completely, eyes wide with surpise.' % target.name)
 		self.use_charge(caster)
 			

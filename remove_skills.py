@@ -4,7 +4,7 @@ import sys
 
 name = None
 if len(sys.argv) != 2:
-	name = raw_input('please enter the player name -> ')
+	name = input('please enter the player name -> ')
 else:
 	name = sys.argv[1]
 
